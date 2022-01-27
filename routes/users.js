@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user_Controller');
-
-router.get('/profile',userController.user);
+console.log('Router setup for User')
+router.get('/profile',userController.userUpdated);
 
 module.exports = router;
