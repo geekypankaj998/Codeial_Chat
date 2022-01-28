@@ -1,5 +1,5 @@
 module.exports.home = function(req,resp){
-    resp.end('<h1>This is codeial controller</h1>');
+    resp.end('<h3>This is codeial controller</h3>');
 }
 
 module.exports.homeUpdate = function(req,resp){
