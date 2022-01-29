@@ -3,7 +3,7 @@ module.exports.user = function(req,resp){
 }
 module.exports.userUpdated = function(req,resp){
   resp.render('user',{
-    title: 'Codeial',
+    title: 'Codeial User',
     head : 'Inside User Profile',
     descriptn : 'This is user Profile Page'   
   });

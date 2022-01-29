@@ -4,7 +4,7 @@ module.exports.home = function(req,resp){
 
 module.exports.homeUpdate = function(req,resp){
     resp.render('home',{
-        title:'Codeial',
+        title:'Codeial Home',
         descriptn : 'One stop solution tech talks'
     });
 }
