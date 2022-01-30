@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="/css/user_sign_up.css">
+
+<h2><%=head%></h2>
+<h4><%=descriptn%></h4>
+
+<form class='dispFlex' action='/users/create' method='POST'>
+  <div>
+    <input type="text" name='name' required placeholder='Enter Name'>
+  </div>
+  <div>  
+    <input type="email" name='email' required placeholder='Enter Email '>
+  </div>
+  <div>    
+    <input type="password" name='password' required placeholder='Enter Password'>
+  </div>
+  <div>    
+    <input type="password" name='confirm_password'  required placeholder='Confirm Password'>
+  </div>
+  <button id='buttonAction' >Sign Up</button>
+</form>

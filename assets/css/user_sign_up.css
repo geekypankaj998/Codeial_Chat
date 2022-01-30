@@ -1,0 +1,27 @@
+
+input,button{
+  display:block;
+  height:30px;
+  margin-top:5px;
+  padding:auto;
+}
+.dispFlex{
+  display:flex;
+}
+form{
+  padding:2px;
+  flex-direction:column;
+  width:400px;
+  background-color:orange;
+  margin:auto;
+  align-items:center;
+}
+form input,form button{
+  width:100%;
+  font-size: 1.2rem;
+}
+#buttonAction{
+  width:40%;
+  font-size:1.5rem;
+  height:10%;
+}
