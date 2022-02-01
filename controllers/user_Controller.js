@@ -3,7 +3,7 @@ const User = require('../models/user');
 module.exports.user = function(req,resp){
   resp.end('<h1>This is User Profile ::smile </h1>');
 }
-module.exports.userUpdated = function(req,resp){
+module.exports.profile = function(req,resp){
   resp.render('user',{
     title: 'Codeial User',
     head : 'Inside User Profile',
