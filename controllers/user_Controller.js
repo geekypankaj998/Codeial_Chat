@@ -1,4 +1,5 @@
 const User = require('../models/user'); 
+const passport = require('passport');
 
 module.exports.user = function(req,resp){
   resp.end('<h1>This is User Profile ::smile </h1>');
@@ -20,9 +21,7 @@ module.exports.signUp = function(req,resp){
 }
 //action for Sign In page
 module.exports.signIn = function(req,resp){
-  console.log(req.cookies);
-  resp.cookie('userId',100);
-  resp.render('user_sign_in',{
+  return resp.render('user_sign_in',{
     title: 'Codeial | Sign In',
     head : 'Sign In Page',
     descriptn : 'Welcome Back Comarade !!'   
@@ -46,6 +45,7 @@ module.exports.create = function(req,resp){
             password : req.body.password
           }, function(err,userN){
               if(err){console.log('Error Occured During Creation : ',err.message); return} //Error Occured During Creation then sending to SignUp Page 
+              console.log('Inside Create Function');
               return resp.redirect('/users/signIn');
           });  
       }
@@ -53,4 +53,9 @@ module.exports.create = function(req,resp){
         return resp.redirect('back');  
       }
     })
+}
+
+module.exports.createSession = function(req,resp){
+  console.log('Inside User Create Session');  
+  return resp.redirect('/users/profile');  
 }
