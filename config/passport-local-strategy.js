@@ -4,16 +4,16 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //authentication of user
 passport.use(new LocalStrategy({
-       usernameField : 'email'
+       usernameField : 'email'      //the field that will be unique in my model here email
     },
-    function(email, password, done){
+    function(email, password, done){   // function that authenticates user credentials
        User.findOne({email : email}, function(err,user){
              if(err){
                console.log(' There is an error in authentication : Try Again !!!'); 
              return done(err);
             }
              if(!user || user.password!=password){
-                console.log('Invalid password]username') 
+                console.log('Invalid password/username') 
                 return done(null,false); 
              }
               return done(null,user);
@@ -22,7 +22,7 @@ passport.use(new LocalStrategy({
 ));
 
 
-//serialize a user invovlves selecting a key that will be added in cookiw to identity an user in future(same session)
+//serialize a user invovlves selecting a key that will be added in cookie to identity an user in future(same session)
 passport.serializeUser(function(user,done){
     console.log('Inside Serializer ',user);
     return done(null,user.id);
@@ -37,5 +37,23 @@ passport.deserializeUser((function(id,done){
     return done(null,user);
    })
 }));
+
+//checking whether a user has been set with session cookie or not 
+passport.checkAuthenticated = function(req,resp,next){
+ 
+   if(req.isAuthenticated()){
+      return next();  //move to controller
+   }
+
+   return resp.redirect('/users/signIn'); //Not yet setup
+}
+
+//want to display content on views
+passport.setAuthenticated = function(req,resp,next){  
+    if(req.isAuthenticated()){ //req.iser contains curent signed user cookie so just passing this to the local views
+      resp.locals.user = req.user;
+    }
+    return next();
+}
 
 module.exports = passport;

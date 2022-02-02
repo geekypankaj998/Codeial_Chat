@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 app.use(express.urlencoded()); //Fetching content during Posting from Forms 
 app.use(cookieParser()); //Provides functionality for Cookies
@@ -31,11 +32,19 @@ app.use(session({
   resave:false,                       // that means rewriting the cookie again and again 
   cookie:{
     maxAge : (1000*60*60)
-  }
+   },
+  store : new MongoStore(
+    {
+    mongooseConnection : db,
+    autoRemove : 'disabled'
+    },function(err){
+     console.log(err || 'setUp Mongo Session Cookie done');
+  })
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.setAuthenticated);
 
 app.use('/',require('./routes'));
 

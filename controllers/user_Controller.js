@@ -1,19 +1,27 @@
 const User = require('../models/user'); 
 const passport = require('passport');
 
-module.exports.user = function(req,resp){
-  resp.end('<h1>This is User Profile ::smile </h1>');
+module.exports.home = function(req,resp){
+  return resp.render('home',{
+      title:'Codeial | Home',
+      descriptn : 'This is Codeial App Home ##@@:)'
+});
 }
 module.exports.profile = function(req,resp){
-  resp.render('user',{
+  return resp.render('user',{
     title: 'Codeial User',
     head : 'Inside User Profile',
-    descriptn : 'This is user Profile Page'   
+    descriptn : 'This is user Profile Page'
   });
 }
 //action for Sign Up page
 module.exports.signUp = function(req,resp){
-  resp.render('user_sign_up',{
+  
+  if(req.isAuthenticated()){  //the user existed already
+    console.log('ALREADY Auth Done !!!');
+    return resp.redirect('/users/profile');       
+ }
+  return resp.render('user_sign_up',{
     title: 'Codeial | Singn Up',
     head : 'Sign Up Page',
     descriptn : 'This is Sign Up Page for First Time User'   
@@ -21,6 +29,10 @@ module.exports.signUp = function(req,resp){
 }
 //action for Sign In page
 module.exports.signIn = function(req,resp){
+ 
+  if(req.isAuthenticated()){  //the user existed already
+     return resp.redirect('/users/profile');       
+  }
   return resp.render('user_sign_in',{
     title: 'Codeial | Sign In',
     head : 'Sign In Page',
@@ -57,5 +69,9 @@ module.exports.create = function(req,resp){
 
 module.exports.createSession = function(req,resp){
   console.log('Inside User Create Session');  
-  return resp.redirect('/users/profile');  
+  return resp.redirect('/users/home');  
+}
+module.exports.signOut = function(req,resp){
+  req.logout(); 
+  resp.redirect('/');
 }
