@@ -1,6 +1,15 @@
 
 body{
+  height:100%;
   margin:0;
-  text-align:center;
-  background-color:rgb(240, 190, 240);
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+}
+#runTime{
+  min-height:85vh;
+  margin-top:60px;
+}
+a{
+  cursor:pointer;
 }

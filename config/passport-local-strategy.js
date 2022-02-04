@@ -31,6 +31,9 @@ passport.serializeUser(function(user,done){
 //deserialize a user means get the key from the cookie and get details for the user
 passport.deserializeUser((function(id,done){
    User.findById(id,function(err,user){ //Finding whether this cookie exist or not (basically here cookie is user_id) 
+
+     console.log('Inside deserializer');
+      
      if(err){console.log('There is an error in authentication : Try Again !!!');
        return done(err);
     }

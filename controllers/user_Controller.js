@@ -22,9 +22,8 @@ module.exports.signUp = function(req,resp){
     return resp.redirect('/users/profile');       
  }
   return resp.render('user_sign_up',{
-    title: 'Codeial | Singn Up',
-    head : 'Sign Up Page',
-    descriptn : 'This is Sign Up Page for First Time User'   
+    title: 'Codeial | Sign Up',
+    head : 'Sign Up Page'
   }) 
 }
 //action for Sign In page
@@ -35,8 +34,7 @@ module.exports.signIn = function(req,resp){
   }
   return resp.render('user_sign_in',{
     title: 'Codeial | Sign In',
-    head : 'Sign In Page',
-    descriptn : 'Welcome Back Comarade !!'   
+    head : 'Sign In Page'  
   }) 
 }
 //Create User Page

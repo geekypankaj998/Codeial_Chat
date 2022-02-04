@@ -1,4 +1,11 @@
-
+#runTime{
+  background-image: url('../images/friends.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color:darkslategray;
+  text-align: center;
+}
 input,button{
   display:block;
   height:30px;
@@ -9,13 +16,20 @@ input,button{
   display:flex;
 }
 form{
+  box-sizing: border-box;
   padding:2px;
   flex-direction:column;
   width:400px;
   background-color:orange;
-  margin:auto;
+  margin-left:20px;
   align-items:center;
+  background:transparent;
 }
+form:hover{
+  border:2px double darkslategrey;
+  background:linear-gradient(red,rgb(61, 235, 61),rgb(23,203,203),lightblue);
+}
+
 form input,form button{
   width:100%;
   font-size: 1.2rem;
@@ -23,5 +37,7 @@ form input,form button{
 #buttonAction{
   width:40%;
   font-size:1.5rem;
-  height:10%;
+  height:2rem;
+  background-color:rgb(80, 78, 207);
+  color:white;
 }

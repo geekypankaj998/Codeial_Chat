@@ -6,14 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <script src="https://kit.fontawesome.com/2de811935a.js" crossorigin="anonymous"></script>
   <%- style%>
 </head>
 <body>
-  <%- include('_header'); %>
- 
+  <div>
+    <%- include('_header'); %>
+  </div>
+  
+  <div id='runTime'>
     <%- body%>
-
-  <%- include('_footer'); %>
+  </div>
+   <div>
+    <%- include('_footer'); %>
+   </div>
+ 
   <%- script%>
 </body>
 </html>

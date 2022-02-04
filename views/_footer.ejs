@@ -1,1 +1,19 @@
-<h1>This is Footer :)</h1>
+<div id='footer'>
+  <div class='info' id='trademark'>
+    <div><i class='fas fa-registered'></i></div>
+    <div>All Rights Reserved</div>
+  </div>
+  
+  <% if(locals.user){%>
+    <div class='info'>
+      <div><a href='/users/home'>Home</a></div>
+      <div><a href='/users/profile'>Profile</a></div>
+    </div>
+  
+  <%}else{%>
+    <div class='info'>
+      <div><a href='/users/signUp'>Sign Up</a></div>
+      <div><a href='/users/signIn'>Sign In</a></div>
+    </div>
+  <%}%>
+</div>
