@@ -1,11 +1,24 @@
 const User = require('../models/user'); 
+const Post = require('../models/post'); 
 const passport = require('passport');
 
 module.exports.home = function(req,resp){
-  return resp.render('home',{
-      title:'Codeial | Home',
-      descriptn : 'This is Codeial App Home ##@@:)'
-});
+  // Post.find({},
+    // function(err,posts){
+    //    if(err){console.log('Error occured during getting Posts of user'); return;}
+       
+    //    return resp.render('home',{
+    //     title:'Codeial Home',
+    //     posts : posts
+    //    });
+  Post.find({}).populate('user').exec(function(err,posts){
+    if(err){console.log('Error occured during getting Posts of user'); return;}
+    return resp.render('home',{
+     title:'Codeial Home',
+     posts : posts
+    });     
+  });
+// return resp.redirect('/post/');
 }
 module.exports.profile = function(req,resp){
   return resp.render('user',{

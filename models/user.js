@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     }
 },
    {
-   timestamp:true           //It keeps a log of creation and updation of objects here user objects
+   timestamps:true           //It keeps a log of creation and updation of objects here user objects
    }
 );
 

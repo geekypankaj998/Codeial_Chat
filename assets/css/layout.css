@@ -7,8 +7,9 @@ body{
   box-sizing:border-box;
 }
 #runTime{
-  min-height:85vh;
+  min-height:90vh;
   margin-top:60px;
+  padding:0 15px;
 }
 a{
   cursor:pointer;

@@ -1,0 +1,59 @@
+[33mcommit b4712ed90367922ff806ea57c223bfe385085ff7[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Fri Feb 4 10:25:22 2022 +0530
+
+    Styling Added to Sign Up and Sign In Pages
+
+[33mcommit 26b3d1008e9998397e6182a441310120b498fe06[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Wed Feb 2 21:53:45 2022 +0530
+
+    Passport Autnhentication Done
+
+[33mcommit 42f353d9157e98a97ea589dbc6075ea5846b4509[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Wed Feb 2 09:59:54 2022 +0530
+
+    working on authentication
+
+[33mcommit b361ece4fd76686bfd14d3fab05e1a2553cb3c10[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Tue Feb 1 15:57:35 2022 +0530
+
+    Adding Paaport JS
+
+[33mcommit 928a4cb9c03bc7fa8c616cbdf98f7fdf682301d1[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Sun Jan 30 20:26:03 2022 +0530
+
+    Sign Up Done
+
+[33mcommit 53e597b5e360ee9c4882a94a81fb648b5eb03547[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Sat Jan 29 13:22:15 2022 +0530
+
+    Added Patials and Styles Workaround
+
+[33mcommit 83305e1dd4ea9f6c9d1a03ad38c8b345fb2f5107[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Fri Jan 28 23:29:19 2022 +0530
+
+    Understood Partials , adding Partials
+
+[33mcommit 560837281c6c423d4fec6a8d97f3d674957c5b03[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Thu Jan 27 15:36:27 2022 +0530
+
+    Views Added
+
+[33mcommit 2eede9609a23042bb418e3902f8ba204e0bfbcd1[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Thu Jan 27 13:08:20 2022 +0530
+
+    Controllers and Routes Addition
+
+[33mcommit 2c63ae12b59a9ebac06021ae5b46a072fd054a17[m
+Author: geekypankaj998 <pankaj11111998@gmail.com>
+Date:   Thu Jan 27 02:54:35 2022 +0530
+
+    Setting up Directory and Express

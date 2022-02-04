@@ -1,10 +1,13 @@
-module.exports.home = function(req,resp){
-    resp.end('<h3>This is codeial controller</h3>');
-}
-
+const Post = require('../models/post');
 module.exports.homeUpdate = function(req,resp){
-    resp.render('home',{
-        title:'Codeial Home',
-        descriptn : 'One stop solution tech talks'
+
+    Post.find({},
+        function(err,posts){
+           if(err){console.log('Error occured during getting Posts of user'); return;}
+           
+           return resp.render('home',{
+            title:'Codeial Home',
+            posts : posts
+           });
     });
 }
