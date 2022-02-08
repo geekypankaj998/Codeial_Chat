@@ -1,21 +1,40 @@
 
   <section>
-    <h4>Posts</h4>
+    <h4>How was your Day ? ?  </h4>
     <form action="/post/save" method="POST">
-      <textarea name="content" id="" cols="30" rows="3" placeholder="Enter text here"></textarea>
+      <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your posts here"></textarea>
       <input type="submit" value="Post">
     </form>
   </section>
+<%if(locals.user){%>  
 <h2>Your All Posts</h2>
+<%}else{%>
+  <h2>Welcome to Codeial :)</h2>
+<%}%>
 
-<%for(post of posts){%>
+  <%if(locals.user){%>
+    <%for(post of posts){%>  
     <div>
       <%=post.content%>
     </div>
-    <div>
-      <%=post.user.name%>
-    </div>
-<%}%>  
+    <br>
+     <small><%=post.user.name%></small> 
+    
+    <form action="/comment/save" method="POST">
+      <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your comments here"></textarea>
+      <input type="submit" value="Add Comment">
+      <input type="hidden" name="post" value='<%=post._id%>'>
+    </form>
+    <%for(comment of post.comments){%>
+       <ul>
+         <li><%=comment.content%></li>
+         <br>
+         <small><%=comment.user.name%></small>
+       </ul>  
+    <%}%>
+    <%}%>
+  <%}%>  
+
     
 
 

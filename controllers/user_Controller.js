@@ -3,23 +3,30 @@ const Post = require('../models/post');
 const passport = require('passport');
 
 module.exports.home = function(req,resp){
-  // Post.find({},
-    // function(err,posts){
-    //    if(err){console.log('Error occured during getting Posts of user'); return;}
-       
-    //    return resp.render('home',{
-    //     title:'Codeial Home',
-    //     posts : posts
-    //    });
-  Post.find({}).populate('user').exec(function(err,posts){
-    if(err){console.log('Error occured during getting Posts of user'); return;}
-    return resp.render('home',{
-     title:'Codeial Home',
-     posts : posts
-    });     
-  });
-// return resp.redirect('/post/');
+
+     //now mapping Post table with User  Table 
+    console.log('Inside Home'+req.user);
+    Post.find({user:req.user._id})
+    .populate('user')
+    .populate({
+      path:'comments',
+      populate:{
+        path:'user'
+      }
+    })
+    .exec(function(err,posts){
+      if(err){console.log('Error occured during getting Posts of user',err); return}
+      console.log(posts);
+
+      return resp.render('home',{
+       title:'Codeial Home',
+       posts : posts
+      });     
+    });
+  //  return resp.redirect('/home');
+   
 }
+
 module.exports.profile = function(req,resp){
   return resp.render('user',{
     title: 'Codeial User',
@@ -43,8 +50,10 @@ module.exports.signUp = function(req,resp){
 module.exports.signIn = function(req,resp){
  
   if(req.isAuthenticated()){  //the user existed already
-     return resp.redirect('/users/profile');       
+    console.log('User Authentication Done Now Loading Home Page'); 
+     return resp.redirect('/users/home');       
   }
+  console.log('This is for the first time singn Up ');
   return resp.render('user_sign_in',{
     title: 'Codeial | Sign In',
     head : 'Sign In Page'  
@@ -80,9 +89,10 @@ module.exports.create = function(req,resp){
 
 module.exports.createSession = function(req,resp){
   console.log('Inside User Create Session');  
-  return resp.redirect('/users/home');  
+  return resp.redirect('/users/signIn');  
 }
+
 module.exports.signOut = function(req,resp){
   req.logout(); 
-  resp.redirect('/');
+  return resp.redirect('/');
 }

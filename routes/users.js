@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const userController = require('../controllers/user_Controller');
 console.log('Router setup for User');
-router.get('/home',userController.home);
+router.get('/home',passport.checkAuthenticated,userController.home);
 router.get('/signUp',userController.signUp);
 router.get('/signIn',userController.signIn);
 router.get('/profile',passport.checkAuthenticated,userController.profile);

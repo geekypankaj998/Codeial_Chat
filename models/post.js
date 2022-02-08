@@ -5,10 +5,16 @@ const postSchema = new mongoose.Schema({
      type : String,
      required:true 
   },
+  //linking the user that created Post
   user:{
       type: mongoose.Schema.Types.ObjectId,
       ref : 'User' 
-  }
+  },
+  //linking all the comments with each post faster way otherwise fetching this info from the comments model 
+  comments:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : 'Comment' 
+  }]
 },{
   timestamps:true
 }

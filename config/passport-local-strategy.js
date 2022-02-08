@@ -47,13 +47,13 @@ passport.checkAuthenticated = function(req,resp,next){
    if(req.isAuthenticated()){
       return next();  //move to controller
    }
-
+   console.log('Checked but not returned!!!');
    return resp.redirect('/users/signIn'); //Not yet setup
 }
 
 //want to display content on views
 passport.setAuthenticated = function(req,resp,next){  
-    if(req.isAuthenticated()){ //req.iser contains curent signed user cookie so just passing this to the local views
+    if(req.isAuthenticated()){ //req.user contains curent signed user cookie so just passing this to the local views
       resp.locals.user = req.user;
     }
     return next();

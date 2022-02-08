@@ -6,5 +6,5 @@ console.log('Router set up for / ');
 router.get('/',homeController.homeUpdate);
 router.use('/users',require('./users'));
 router.use('/post',require('./post'));
-
+router.use('/comment',require('./comment'));
 module.exports = router;
