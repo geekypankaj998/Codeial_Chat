@@ -22,3 +22,28 @@ module.exports.save = function(req,resp){
         });
   })
 }  
+
+module.exports.destroy = function(req,resp){
+ //checking is the Comment existed or not 
+ Comment.findById(req.params.id,function(err,comment){
+    if(err){console.log('Error occured during deleting a comment',err); return}
+    
+    //Comment existed now checking whether the request raise by the logged in user and that himselg has created the comment
+    let postID ;
+    if(req.user.id == comment.user){
+        postID = comment.post; 
+        comment.remove();   //comment removed 
+       
+        //Now removing this comment from Post Comment Array
+        Post.findByIdAndUpdate(postID,{$pull : {comments : req.params.id}},function(err,post){
+        //here post means that post which contains the deleted comment
+        //$pull is used to fetch an array from the Document          
+           return resp.redirect('back');
+        }) 
+    }
+    else{
+      return resp.redirect('back');
+    }    
+ });
+
+}

@@ -6,7 +6,7 @@ module.exports.home = function(req,resp){
 
      //now mapping Post table with User  Table 
     console.log('Inside Home'+req.user);
-    Post.find({user:req.user._id})
+    Post.find({})
     .populate('user')
     .populate({
       path:'comments',
@@ -16,7 +16,6 @@ module.exports.home = function(req,resp){
     })
     .exec(function(err,posts){
       if(err){console.log('Error occured during getting Posts of user',err); return}
-      console.log(posts);
 
       return resp.render('home',{
        title:'Codeial Home',
