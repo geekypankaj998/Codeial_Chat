@@ -6,10 +6,10 @@ console.log('Router setup for User');
 router.get('/home',passport.checkAuthenticated,userController.home);
 router.get('/signUp',userController.signUp);
 router.get('/signIn',userController.signIn);
-router.get('/profile',passport.checkAuthenticated,userController.profile);
+router.get('/profile/:id',passport.checkAuthenticated,userController.profile);
 router.post('/create',userController.create);
 router.get('/signOut',userController.signOut);
-
+router.post('/update/:id',passport.checkAuthenticated,userController.update);
 //here we need middleware during calling createsession passport middleware
 router.post('/create-session',passport.authenticate(
   'local',

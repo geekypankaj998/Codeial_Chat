@@ -1,0 +1,12 @@
+<li>
+  <%if(locals.user && comment.user.id==locals.user.id){%>
+    <a class='fas fa-trash' href="/comment/destroy/<%=comment._id%>"></a> 
+  <%}%>  
+      <p>
+      <%=comment.content%>
+      <br>
+      <small>
+      <%=comment.user.name%>
+      </small>
+      </p>
+</li>

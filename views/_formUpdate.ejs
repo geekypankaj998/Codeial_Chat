@@ -1,0 +1,26 @@
+<form class='dispFlex' action="/users/update/<%=user.id%>" method="POST">
+  <div>
+    <label for="usern">New User Name</label>
+    <input id="usern" type="text" name="nwName" placeholder="Enter New User Name" value="<%=userCurrPro.name%>" required>
+  </div> 
+  <div>
+   <label for="usere">New Email Name</label>
+   <input id="usere" type="text" name="nwEmail" placeholder="Enter New User Email" value="<%=userCurrPro.email%>"  required>
+ </div> 
+  <div>
+    <label for="passw">Old password</label>
+    <input id="passw" type="password" name="oldpassword" placeholder="Verify Your Old Password" required>
+  </div> 
+  <div>
+    <label for="passNew">New Password</label>
+    <input id="passNew" type="password" name="_password" placeholder="Enter New Password" required >
+  </div> 
+  <div>
+    <label for="passNewCon">Confirm New Password</label>
+    <input id="passNewCon" type="password" name="confirm_password" placeholder="Confirm Your New Password" required >
+  </div>
+  <div>
+     <button>Update</button>
+  </div>
+   
+ </form>

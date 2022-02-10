@@ -6,6 +6,7 @@ module.exports.home = function(req,resp){
 
      //now mapping Post table with User  Table 
     console.log('Inside Home'+req.user);
+
     Post.find({})
     .populate('user')
     .populate({
@@ -17,20 +18,26 @@ module.exports.home = function(req,resp){
     .exec(function(err,posts){
       if(err){console.log('Error occured during getting Posts of user',err); return}
 
-      return resp.render('home',{
-       title:'Codeial Home',
-       posts : posts
-      });     
-    });
-  //  return resp.redirect('/home');
-   
+      User.find({},function(err,users){
+        if(err){console.log('Error occured during fetching Users info',err); return}
+  
+        return resp.render('home',{
+          title:'Codeial Home',
+          posts : posts,
+          userL : users
+         });  
+      })       
+    }); 
 }
 
 module.exports.profile = function(req,resp){
-  return resp.render('user',{
-    title: 'Codeial User',
-    head : 'Inside User Profile',
-    descriptn : 'This is user Profile Page'
+  User.findById(req.params.id,function(err,user){
+    return resp.render('user',{
+      title: 'Codeial User',
+      head : 'Inside User Profile',
+      descriptn : 'This is user Profile Page',
+      userCurrPro : user
+    });
   });
 }
 //action for Sign Up page
@@ -95,3 +102,35 @@ module.exports.signOut = function(req,resp){
   req.logout(); 
   return resp.redirect('/');
 }
+module.exports.update = function(req,resp){
+  if(req.user.password!=req.body.oldpassword){
+    console.log('Password mismatch');
+    return resp.redirect('back');
+  }
+  if(req.body._password!=req.body.confirm_password){
+    return resp.redirect('back');
+  }
+
+  // whether the old password was correct  
+  // User.findById(req.params.id,function(err,user){
+  //    if(err){console.log('Error occured during veryfying indentity of user',err); return ;} 
+
+  //    console.log(user.name+" "+user.email);
+  //   //  verifying old password and currInp Password
+  //   // Updating Prev Info
+  //   user.name = req.body.nwName;
+  //   user.email = req.body.nwEmail;
+  //   user.password = req.body.confirm_password;
+  //   user.save();
+  //   return resp.redirect('back');
+  // }); This was my logic 
+
+  //Other way
+  User.findByIdAndUpdate(req.params.id,{name: req.body.nwName , email : req.body.nwEmail, password : req.body.confirm_password},function(err,user){
+    return resp.redirect('back');
+  });
+
+  //If wanted then we send Unauthorised access remark a;so
+  // return resp.status(401).send('Unauthorised')
+}
+

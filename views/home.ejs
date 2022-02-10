@@ -1,64 +1,44 @@
-
-  <section>
-    <h4>How was your Day ? ?  </h4>
-    <form class="formStyle" action="/post/save" method="POST">
-      <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your posts here" required></textarea>
-      <input type="submit" value="Post">
-    </form>
-  </section>
-<%if(locals.user){%>  
-<h2>Posts</h2>
-<%}else{%>
-  <h2>Welcome to Codeial :)</h2>
-<%}%>
-
-   <div class='post-list-container'>
-     <ul>
-       <%for(post of posts){%>
-          <li>
-            <p class="postInfo">
-              <%if(locals.user && post.user.id == locals.user.id){%>
-                <a class='fas fa-trash' href="/post/destroy/<%=post.id%>"></a> 
-              <%}%>  
-             <!--The above check helped to check whether post.user.id == locals.user.id has it has been prepopulated from back end so post.user is a full fledged object-->
-              <%=post.content%>
-              <br>
-              <small class="userName">
-                <%=post.user.name%>
-              </small>
-            </p>
-
-            <div class="post-comment-box">
-              <%if(locals.user){%>
-              <form class="formStyle" action="/comment/save" method="POST">
-                <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your comments here" required></textarea>
-                <input type="submit" value="Add Comment">
-                <input type="hidden" name="post" value='<%=post.id%>'>
-              </form>
-              <%}%>
-            <div class="post-list-comments">
-              <ul id="post-list-<%=post._id%>">
-                <%for(comment of post.comments){%>
-                  <li>
-                    <%if(locals.user && comment.user.id==locals.user.id){%>
-                      <a class='fas fa-trash' href="/comment/destroy/<%=comment._id%>"></a> 
-                    <%}%>  
-                        <p>
-                        <%=comment.content%>
-                        <br>
-                        <small>
-                        <%=comment.user.name%>
-                        </small>
-                  </li>
-                  </p>  
-                <%}%>
-              </ul>
-
-            </div>
-          </li>
-
-       <%}%>
-        </ul>
-   </div> 
-
-
+<link rel="stylesheet" href="/css/user_sign_up.css">
+<link rel="stylesheet" href="/css/home.css">
+<div class="vertAlign">
+  <div id="left">
+    <section>
+      <h4>How was your Day ? ? Post Something</h4>
+      <form class="formStyle" action="/post/save" method="POST">
+        <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your posts here" required></textarea>
+        <button type="submit" value="Post">Post</button>
+      </form>
+    </section>
+   
+  </div>
+  
+  <div id="center">
+    <%if(locals.user){%>  
+      <h2>Posts</h2>
+      <%}else{%>
+        <h2>Welcome to Codeial :)</h2>
+      <%}%>
+    <div class='post-list-container'>
+      <ul>
+        <%for(post of posts){%>
+           <%-include('_postCont')%>
+        <%}%>
+         </ul>
+    </div> 
+  </div>
+   
+  <div id="right">
+    <h3>Friends</h3>
+    <div id="userList">
+      <ul>
+        <%for(userCurr of userL){%>
+           <li>
+            <i class="fas fa-solid fa-user"></i>
+            <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
+           </li>
+        <%}%>
+      </ul> 
+   </div>
+  </div>
+   
+</div>

@@ -20,7 +20,6 @@ form{
   padding:2px;
   flex-direction:column;
   width:400px;
-  background-color:orange;
   margin-left:20px;
   align-items:center;
   background:transparent;
@@ -28,6 +27,7 @@ form{
 form:hover{
   border:2px double darkslategrey;
   background:linear-gradient(red,rgb(61, 235, 61),rgb(23,203,203),lightblue);
+  
 }
 
 form input,form button{

@@ -1,7 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
-
 module.exports.save = function(req,resp){
   //check whether the post exist on which comment is made 
   Post.findById(req.body.post,function(err,post){
@@ -34,12 +33,20 @@ module.exports.destroy = function(req,resp){
         postID = comment.post; 
         comment.remove();   //comment removed 
        
-        //Now removing this comment from Post Comment Array
-        Post.findByIdAndUpdate(postID,{$pull : {comments : req.params.id}},function(err,post){
-        //here post means that post which contains the deleted comment
-        //$pull is used to fetch an array from the Document          
-           return resp.redirect('back');
-        }) 
+        // //Now removing this comment from Post Comment Array
+        // Post.findByIdAndUpdate(postID,{$pull : {comments : req.params.id}},function(err,post){
+        // //here post means that post which contains the deleted comment
+        // //$pull is used to fetch an array from the Document          
+        //    return resp.redirect('back');
+        // }); 
+        Post.findById(postID,function(err,post){
+               if(err){console.log('Error occured during Deleting Post for thr subsequent Comment',err); return}
+               console.log("Inside comment Delete @@@@@",post);
+               let indComm = post.comments.indexOf(req.params.id);
+               post.comments.splice(indComm,indComm+1);
+               post.save();
+               return resp.redirect('back');
+        });
     }
     else{
       return resp.redirect('back');

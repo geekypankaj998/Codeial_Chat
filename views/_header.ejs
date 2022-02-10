@@ -1,11 +1,13 @@
 <div id='header'>
   <div class='info'>
     <div id='logo'></div>
-    <div id='logoName'>Codeial</div> 
+    <div id='logoName'>
+      <a href="/users/home"> Codeial</a>
+    </div> 
   </div>  
  <% if(locals.user){ %>
   <div class='info insideDiv'>
-    <div><%=user.name%></div>
+    <div><a href="/users/profile/<%=user.id%>"><%=user.name%></a></div>
     <div><a href="/users/signOut">Sign Out</a></div>
   </div>
  <% } else{ %>

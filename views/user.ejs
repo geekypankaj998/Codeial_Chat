@@ -1,9 +1,12 @@
+<link rel="stylesheet" href="/css/user_sign_up.css">
 <link rel="stylesheet" href="/css/user.css">
-
   <h2><%=head%></h2>
   <h3>
     <%=descriptn%>
   </h3>
-<p><%=user.name%></p>
-<p><%=user.email%></p>
+<p>User Name :<%=userCurrPro.name%></p>
+<p>User Email : <%=userCurrPro.email%></p>
 
+<%if(user.id == userCurrPro.id ){%>
+ <%-include('_formUpdate')%>
+ <%}%>

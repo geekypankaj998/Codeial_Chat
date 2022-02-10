@@ -1,3 +1,5 @@
-body{
-  background:linear-gradient(orange,red,grey);
+#runTime{
+  background:linear-gradient(violet,rgb(31, 129, 221));
+  color:white;
+  text-align: left;
 }
