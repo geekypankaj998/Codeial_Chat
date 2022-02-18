@@ -2,32 +2,32 @@ const User = require('../models/user');
 const Post = require('../models/post'); 
 const passport = require('passport');
 
-module.exports.home = function(req,resp){
+module.exports.home = async function(req,resp){
 
      //now mapping Post table with User  Table 
     console.log('Inside Home'+req.user);
 
-    Post.find({})
+    try{
+    let posts = await Post.find({})
     .populate('user')
     .populate({
       path:'comments',
       populate:{
         path:'user'
       }
-    })
-    .exec(function(err,posts){
-      if(err){console.log('Error occured during getting Posts of user',err); return}
+    });
 
-      User.find({},function(err,users){
-        if(err){console.log('Error occured during fetching Users info',err); return}
-  
-        return resp.render('home',{
-          title:'Codeial Home',
-          posts : posts,
-          userL : users
-         });  
-      })       
-    }); 
+    let users = await User.find({});
+
+    return resp.render('home',{
+      title:'Codeial Home',
+      posts : posts,
+      userL : users
+     });
+    }catch(err){
+      console.log('Error Occured',err);
+    }  
+
 }
 
 module.exports.profile = function(req,resp){
