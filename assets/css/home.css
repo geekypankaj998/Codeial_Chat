@@ -54,7 +54,7 @@ form,textarea,button{
   border-bottom: 2px solid grey;
   margin-bottom:4px ; 
   min-height:100px;
-  min-width:300px;
+  width:300px;
 }
 
 /* Stylining Center List  */

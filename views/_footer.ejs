@@ -7,7 +7,7 @@
   <% if(locals.user){%>
     <div class='info'>
       <div><a href='/users/home'>Home</a></div>
-      <div><a href='/users/profile'>Profile</a></div>
+      <div><a href='/users/profile/<%=user.id%>'>Profile</a></div>
     </div>
   
   <%}else{%>

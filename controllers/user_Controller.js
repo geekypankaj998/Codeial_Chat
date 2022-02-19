@@ -6,7 +6,6 @@ module.exports.home = async function(req,resp){
 
      //now mapping Post table with User  Table 
     console.log('Inside Home'+req.user);
-
     try{
     let posts = await Post.find({})
     .populate('user')
@@ -59,7 +58,7 @@ module.exports.signIn = function(req,resp){
     console.log('User Authentication Done Now Loading Home Page'); 
      return resp.redirect('/users/home');       
   }
-  console.log('This is for the first time singn Up ');
+ 
   return resp.render('user_sign_in',{
     title: 'Codeial | Sign In',
     head : 'Sign In Page'  
@@ -69,11 +68,14 @@ module.exports.signIn = function(req,resp){
 module.exports.create = function(req,resp){
     if(req.body.password!=req.body.confirm_password){
       console.log('Both password dont match please enter again!!!');
+      req.flash('info','Both password dont match please enter again!!!');
       return resp.redirect('back');
     }
     // Now will see whther a user (Model entity exist with these signatures)
     User.findOne({email : req.body.email},function(err,user){
-      if(err){console.log('Error occured during Checking User'); return }
+      if(err){console.log('Error occured during Checking User'); 
+      return 
+    }
 
       if(!user){  //no user found ,null so it means User need to be created and then made to land on Sign In Page
           
@@ -88,6 +90,7 @@ module.exports.create = function(req,resp){
           });  
       }
       else{  //If it comes here it means user Present with same credentials earlier so try with diff credentials
+        req.flash('error','Email/User Already Exist'); 
         return resp.redirect('back');  
       }
     })
@@ -98,20 +101,22 @@ module.exports.createSession = function(req,resp){
   
   req.flash('success','Logged In Successfully :)');
   console.log('Sign In success#####');
-  return resp.redirect('back');  
+  return resp.redirect('/users/home');  
 }
 
 module.exports.signOut = function(req,resp){
   req.logout(); 
-  req.flash('error','Logged Out :)');
+  req.flash('success','Logged Out :)');
   return resp.redirect('/');
 }
 module.exports.update = function(req,resp){
   if(req.user.password!=req.body.oldpassword){
     console.log('Password mismatch');
+    req.flash('error','Old Passwords Mismatch'); 
     return resp.redirect('back');
   }
   if(req.body._password!=req.body.confirm_password){
+      req.flash('info','New Password and Confirm Password Mismatch');  
     return resp.redirect('back');
   }
 

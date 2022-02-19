@@ -11,9 +11,13 @@ router.post('/create',userController.create);
 router.get('/signOut',userController.signOut);
 router.post('/update/:id',passport.checkAuthenticated,userController.update);
 //here we need middleware during calling createsession passport middleware
+
 router.post('/create-session',passport.authenticate(
   'local',
-  {failureRedirect : '/users/signIn'},
+  {failureRedirect : '/users/signIn',
+   failureFlash : ''
+},
 ),userController.createSession);
 
+// router.post('/create-session',passport.checkAuthenticated,userController.createSession);
 module.exports = router;

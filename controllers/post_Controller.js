@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const { redirect } = require('express/lib/response');
 
 module.exports.savePost = async function(req,resp){
       
@@ -8,10 +9,11 @@ module.exports.savePost = async function(req,resp){
             content : req.body.content,
             user : req.user._id
         });
-        console.log('Success Saved');
+        req.flash('success','Post Saved');
         return resp.redirect('back');
     }catch(error){
-        console.log('Error occured',error);
+        req.flash('error','Error occured',error);
+        return redirect('back');
     } 
 }
 module.exports.destroyPost = async function(req,resp){
@@ -40,13 +42,15 @@ module.exports.destroyPost = async function(req,resp){
     if(post.user == req.user.id){ 
         post.remove();
         let comm = await Comment.deleteMany({post : req.params.id});
+        req.flash('success','Post and Associated Comments deleted');
         return resp.redirect('back');
     }
     else{
+         
         return resp.redirect('back');
     }
     }
     catch(err){
-       console.log('error occured',err);
+        req.flash('error','Some error occured',err);
     }
    }

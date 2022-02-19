@@ -30,13 +30,15 @@ module.exports.save = async function(req,resp){
             });
             post.comments.push(comment);
             post.save(); 
+            req.flash('success','Comment saved');
             return resp.redirect('back');
       }
    else{
-  return resp.redirect('back');
+    return resp.redirect('back');
  }
 }catch(err){
-  console.log(' Error occcured ',err);
+  req.flash('error',' Error occcured ',err);
+  return resp.redirect('back');
 }
 
 }  
@@ -81,10 +83,12 @@ module.exports.destroy = async function(req,resp){
     let post = await Post.findById(postID);
     let indComm = post.comments.indexOf(req.params.id);
     post.comments.splice(indComm,indComm+1);
+    req.flash('success','Comment Delete');
     post.save();
     return resp.redirect('back');
   }
   else{
+    req.flash('error','Some error occured');
     return resp.redirect('back');
   }
  }

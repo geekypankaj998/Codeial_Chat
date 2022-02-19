@@ -4,16 +4,17 @@ const LocalStrategy = require('passport-local').Strategy;
 
 //authentication of user
 passport.use(new LocalStrategy({
-       usernameField : 'email'      //the field that will be unique in my model here email
+       usernameField : 'email',      //the field that will be unique in my model here email
+       passReqToCallback : true
     },
-    function(email, password, done){   // function that authenticates user credentials
+    function(req,email, password, done){   // function that authenticates user credentials
        User.findOne({email : email}, function(err,user){
              if(err){
-               console.log(' There is an error in authentication : Try Again !!!'); 
-             return done(err);
+               req.flash('error',' There is an error in authentication : Try Again !!!',err); 
+               return done(err);
             }
              if(!user || user.password!=password){
-                console.log('Invalid password/username') 
+                req.flash('error','Invalid password/username');
                 return done(null,false); 
              }
               return done(null,user);
