@@ -9,6 +9,8 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 
 app.use(express.urlencoded()); //Fetching content during Posting from Forms 
 app.use(cookieParser()); //Provides functionality for Cookies
@@ -45,6 +47,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticated);
+
+app.use(flash());     //Now flash can access session to store messages
+app.use(customMware.setFlash); //Requring custom Middleware for adding req to resp flash obj 
 
 app.use('/',require('./routes'));
 

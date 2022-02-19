@@ -94,12 +94,16 @@ module.exports.create = function(req,resp){
 }
 
 module.exports.createSession = function(req,resp){
-  console.log('Inside User Create Session');  
-  return resp.redirect('/users/signIn');  
+  console.log('Inside User Create Session @@@!!!!');  
+  
+  req.flash('success','Logged In Successfully :)');
+  console.log('Sign In success#####');
+  return resp.redirect('back');  
 }
 
 module.exports.signOut = function(req,resp){
   req.logout(); 
+  req.flash('error','Logged Out :)');
   return resp.redirect('/');
 }
 module.exports.update = function(req,resp){

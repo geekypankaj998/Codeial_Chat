@@ -15,8 +15,14 @@
   <div>
     <%- include('_header'); %>
   </div>
-  
   <div id='runTime'>
+    <% if(flash.success && flash.success.length>0){%>
+      <%=flash.success %>
+    <%}%> 
+  
+    <% if(flash.error && flash.error.length>0){%>
+      <%=flash.error %>
+    <%}%>
     <%- body%>
   </div>
    <div>
