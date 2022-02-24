@@ -4,8 +4,8 @@
   <div id="left">
     <section>
       <h4>How was your Day ? ? Post Something</h4>
-      <form class="formStyle" action="/post/save" method="POST">
-        <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your posts here" required></textarea>
+      <form class="formStyle" id="new-post-form" action="/post/save" method="POST">
+        <textarea name="content"  cols="30" rows="3" placeholder="Enter your posts here" required></textarea>
         <button type="submit" value="Post">Post</button>
       </form>
     </section>
@@ -16,7 +16,7 @@
     <%if(locals.user){%>  
       <h2>Posts</h2>
       <%}else{%>
-        <h2>Welcome to Codeial :)</h2>
+        <h2>Welcome to Codeial :)</h2> 
       <%}%>
     <div class='post-list-container'>
       <ul>
@@ -42,3 +42,4 @@
   </div>
    
 </div>
+<script src="/js/home_posts.js" type='text/javascript' defer></script>

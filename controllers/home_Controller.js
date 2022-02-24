@@ -19,6 +19,7 @@ module.exports.homeUpdate = async function(req,resp){
         posts : posts,
         userL : users
        });
+       
   }catch(err){
      console.log('Error occured',err);
   }

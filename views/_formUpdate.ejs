@@ -1,4 +1,8 @@
-<form class='dispFlex' action="/users/update/<%=user.id%>" method="POST">
+<form class='dispFlex' action="/users/update/<%=user.id%>" method="POST" enctype="multipart/form-data">
+  <!-- <div>
+    <label for="userpro">Profile</label>
+    <input id="usern" type="file" name="nwName" placeholder="Enter New User Name" value="<%=userCurrPro.name%>" required>
+  </div>  -->
   <div>
     <label for="usern">New User Name</label>
     <input id="usern" type="text" name="nwName" placeholder="Enter New User Name" value="<%=userCurrPro.name%>" required>

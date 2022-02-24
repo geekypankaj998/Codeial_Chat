@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/css/post.css">
-<li>
+<li id="post-<%=post.id%>">
   <p class="postInfo">
     <%if(locals.user && post.user.id == locals.user.id){%>
-      <a class='fas fa-trash' href="/post/destroy/<%=post.id%>"></a> 
+      <a class='fas fa-trash delPost' href="/post/destroy/<%=post.id%>"></a> 
     <%}%>  
    <!--The above check helped to check whether post.user.id == locals.user.id has it has been prepopulated from back end so post.user is a full fledged object-->
     <%=post.content%>
@@ -22,7 +22,7 @@
     </form>
     <%}%>
   <div class="post-list-comments">
-    <ul id="post-list-<%=post._id%>">
+    <ul id="comment-<%=post._id%>">
       <%for(comment of post.comments){%>
         <%-include('_comments') %> 
       <%}%>
@@ -30,4 +30,3 @@
 
   </div>
 </li>
-<script src="/assets/js/home_post.js"></script>

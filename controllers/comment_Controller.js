@@ -1,5 +1,6 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const User = require('../models/user');
 
 module.exports.save = async function(req,resp){
   //check whether the post exist on which comment is made 
@@ -29,8 +30,16 @@ module.exports.save = async function(req,resp){
               post : req.body.post 
             });
             post.comments.push(comment);
-            post.save(); 
+            post.save();  
+
+            let userC = await User.findById(req.user._id);
             req.flash('success','Comment saved');
+          if(req.xhr){
+             return resp.status(200).json({
+               comment : comment,
+               userCurr : userC.name   
+             });  
+          }  
             return resp.redirect('back');
       }
    else{
@@ -85,6 +94,11 @@ module.exports.destroy = async function(req,resp){
     post.comments.splice(indComm,indComm+1);
     req.flash('success','Comment Delete');
     post.save();
+    if(req.xhr){
+       return resp.status(200).json({
+         commentId : req.params.id
+       });
+    }
     return resp.redirect('back');
   }
   else{

@@ -1,6 +1,6 @@
-<li>
+<li id="<%=comment._id%>">
   <%if(locals.user && comment.user.id==locals.user.id){%>
-    <a class='fas fa-trash' href="/comment/destroy/<%=comment._id%>"></a> 
+    <a class='fas fa-trash delComment' href="/comment/destroy/<%=comment._id%>"></a> 
   <%}%>  
       <p>
       <%=comment.content%>
