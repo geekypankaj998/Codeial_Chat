@@ -114,7 +114,7 @@ module.exports.signOut = function(req,resp){
   return resp.redirect('/');
 }
 module.exports.update = async function(req,resp){
-  console.log('Inside before Update ',req.params);
+  
   // console.log()
   // if(req.user.password!=req.body.oldpassword){ //Ideally If I removed password from user object
   //   console.log('Password mismatch');          // while sending to the front - end so if I removed or not  
@@ -184,7 +184,7 @@ module.exports.update = async function(req,resp){
               // already present 
               //I need to remove this image from the upload folder 
               let pathF = paths.join(__dirname+'/..'+userCurr.avatar); 
-              console.log('Del Path Location :  ',pathF);
+              
               fs.unlinkSync(pathF);
           }
           userCurr.avatar = User.path_avatar + '/' + req.file.filename;

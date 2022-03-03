@@ -7,4 +7,7 @@ router.get('/',homeController.homeUpdate);
 router.use('/users',require('./users'));
 router.use('/post',require('./post'));
 router.use('/comment',require('./comment'));
+
+router.use('/api',require('./api')); //Adding route for API query as the main Index should have info pre hand while transfering.
+
 module.exports = router;
