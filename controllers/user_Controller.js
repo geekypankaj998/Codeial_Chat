@@ -1,6 +1,9 @@
 const User = require('../models/user'); 
 const Post = require('../models/post'); 
 const passport = require('passport');
+const multer = require('multer');
+const fs = require('fs');
+const paths = require('path');
 
 module.exports.home = async function(req,resp){
 
@@ -110,16 +113,19 @@ module.exports.signOut = function(req,resp){
   req.flash('success','Logged Out :)');
   return resp.redirect('/');
 }
-module.exports.update = function(req,resp){
-  if(req.user.password!=req.body.oldpassword){
-    console.log('Password mismatch');
-    req.flash('error','Old Passwords Mismatch'); 
-    return resp.redirect('back');
-  }
-  if(req.body._password!=req.body.confirm_password){
-      req.flash('info','New Password and Confirm Password Mismatch');  
-    return resp.redirect('back');
-  }
+module.exports.update = async function(req,resp){
+  console.log('Inside before Update ',req.params);
+  // console.log()
+  // if(req.user.password!=req.body.oldpassword){ //Ideally If I removed password from user object
+  //   console.log('Password mismatch');          // while sending to the front - end so if I removed or not  
+  //   req.flash('error','Old Passwords Mismatch');  //added this prop then this prop code block fails Okay
+  //   return resp.redirect('back');
+  // }
+
+  // if(req.body._password!=req.body.confirm_password){
+  //     req.flash('info','New Password and Confirm Password Mismatch');  
+  //   return resp.redirect('back');
+  // }
 
   // whether the old password was correct  
   // User.findById(req.params.id,function(err,user){
@@ -136,11 +142,69 @@ module.exports.update = function(req,resp){
   // }); This was my logic 
 
   //Other way
-  User.findByIdAndUpdate(req.params.id,{name: req.body.nwName , email : req.body.nwEmail, password : req.body.confirm_password},function(err,user){
-    return resp.redirect('back');
-  });
+  // User.findByIdAndUpdate(req.params.id,{name: req.body.nwName , email : req.body.nwEmail, password : req.body.confirm_password},function(err,user){
+  //   return resp.redirect('back');
+  // });
 
   //If wanted then we send Unauthorised access remark a;so
-  // return resp.status(401).send('Unauthorised')
+  //  return resp.status(401).send('Unauthorised');
+
+  
+  // Now Changing the previous code with Async Await
+  if(req.user.id == req.params.id){
+    try{
+      let userCurr = await User.findById(req.params.id); 
+
+
+      //Here I can't directly fetch forms Input as it is a multipart state so to achieve that I will use 
+      // uploadedAvatar prop of User Schema
+      User.uploadedAvatar(req,resp,function(err){
+        if(err){
+           console.log('Error ',err);
+           return;
+        }
+        //Most Important need to check whther this user old password and stored in DB and that he entered matched or not 
+        if(req.body.oldpassword != userCurr.password){
+           req.flash('warning','Unauthorised Access , Please Be Cautious');
+           return resp.redirect('back');   
+        }
+        if(req.body._password != req.body.confirm_password){
+          req.flash('warning',' Password Mismatch Try to make Both Same ');
+           return resp.redirect('back');  
+        }
+
+        userCurr.email = req.body.email;
+        userCurr.password = req.body.confirm_password;
+        userCurr.save();
+
+        if(req.file){ // If while placing the update call if there has been a file uploaded regarding update
+
+          //Check whether do we have previously saved the profile earlier so as to save the space it would take as we need to remove the previous image space and this
+          if(userCurr.avatar){
+              // already present 
+              //I need to remove this image from the upload folder 
+              let pathF = paths.join(__dirname+'/..'+userCurr.avatar); 
+              console.log('Del Path Location :  ',pathF);
+              fs.unlinkSync(pathF);
+          }
+          userCurr.avatar = User.path_avatar + '/' + req.file.filename;
+          console.log('Upload done');
+          return resp.redirect('back');
+        }
+        // If no file is sent only info update request is made
+        else{
+           return resp.redirect('back'); 
+        }
+      });
+    }catch(err){
+       console.log(' Error Occured ',err);
+       return;
+    }
+  }
+  else{
+    req.flash('error','Invalid Try Please check your Credentials');
+    return resp.redirect('back');
+  }
+   
 }
 

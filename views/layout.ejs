@@ -38,6 +38,18 @@
  }).show();
     
  <%}%> 
+
+ <% if( flash.error && flash.warning.length>0){%>
+    new Noty({
+     type : 'error',
+     text: '<%=flash.warning%>',
+     layout : 'topRight',
+     theme : 'metroui',
+     timeout: 1500
+ }).show();
+    
+ <%}%>
+
  <% if( flash.error && flash.error.length>0){%>
     new Noty({
      type : 'error',

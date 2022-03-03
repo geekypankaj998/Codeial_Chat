@@ -14,15 +14,15 @@
 
   <div class="post-comment-box">
     <%if(locals.user){%>
-    <form class="formStyle" action="/comment/save" method="POST">
+    <form class="formStyle commForm" id="post-<%=post._id%>-comments-form" action="/comment/save" method="POST">
       <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your comments here" required></textarea>
       <!-- <input type="submit" value="Add Comment"> -->
       <button type="submit">Add Comment</button>
       <input type="hidden" name="post" value='<%=post.id%>'>
     </form>
     <%}%>
-  <div class="post-list-comments">
-    <ul id="comment-<%=post._id%>">
+  <div class="post-list-comments ">
+    <ul id="comment-<%=post._id%>" class="centerList">
       <%for(comment of post.comments){%>
         <%-include('_comments') %> 
       <%}%>

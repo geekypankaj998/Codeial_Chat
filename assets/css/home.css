@@ -58,12 +58,19 @@ form,textarea,button{
 }
 
 /* Stylining Center List  */
-.post-list-container ul{
+#post-list-container ul{
   display:flex;
   justify-content: center;
   align-items: center;
   flex-direction:column;
   padding:0;
+}
+
+.centerList{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
 }
 
 .postInfo{

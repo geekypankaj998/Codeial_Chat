@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
-const User = require('../models/user');
+
 
 const { redirect } = require('express/lib/response');
 
@@ -11,13 +11,17 @@ module.exports.savePost = async function(req,resp){
             content : req.body.content,
             user : req.user._id
         });
-        let userC = await User.findById(req.user._id);
+       
         if(req.xhr){
+         //If wanted to populate the user with name only then need to populate with the name of the property in that particular model OKAY only name field from user
+         console.log(this);
+         console.log(' Before Populating ',posts);
+          posts = await posts.populate('user','name');
+          console.log(' XHR request made Inside Back end after Populating');
            req.flash('success','Post Saved'); 
            return resp.status(200).json({
              data : {
-                 post : posts,
-                 userCurr : userC.name  
+                 post : posts
                 },
              message : 'Post Created successfully'
            });
@@ -25,7 +29,7 @@ module.exports.savePost = async function(req,resp){
         req.flash('success','Post Saved');
         return resp.redirect('back');
     }catch(error){
-        req.flash('error','Error occured',error);
+        req.flash('error','Error occured');
         return redirect('back');
     } 
 }

@@ -17,6 +17,7 @@ app.use(cookieParser()); //Provides functionality for Cookies
 app.use(express.static('./assets'));
 app.use(expressLayouts);   //This needs to be done before routing as there we are using views
 
+app.use('/uploads',express.static(__dirname+'/uploads'));
 //this is used to extract styles and scripts for sub pages
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);

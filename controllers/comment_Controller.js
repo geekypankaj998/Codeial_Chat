@@ -1,6 +1,5 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-const User = require('../models/user');
 
 module.exports.save = async function(req,resp){
   //check whether the post exist on which comment is made 
@@ -31,14 +30,13 @@ module.exports.save = async function(req,resp){
             });
             post.comments.push(comment);
             post.save();  
-
-            let userC = await User.findById(req.user._id);
+            console.log('Inside Comment Save');
             req.flash('success','Comment saved');
           if(req.xhr){
+             comment = await comment.populate('user','name');
              return resp.status(200).json({
-               comment : comment,
-               userCurr : userC.name   
-             });  
+               comment : comment
+              });  
           }  
             return resp.redirect('back');
       }
@@ -95,8 +93,9 @@ module.exports.destroy = async function(req,resp){
     req.flash('success','Comment Delete');
     post.save();
     if(req.xhr){
+       
        return resp.status(200).json({
-         commentId : req.params.id
+         comment : comment._id
        });
     }
     return resp.redirect('back');

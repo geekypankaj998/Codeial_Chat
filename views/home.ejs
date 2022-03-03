@@ -18,8 +18,8 @@
       <%}else{%>
         <h2>Welcome to Codeial :)</h2> 
       <%}%>
-    <div class='post-list-container'>
-      <ul>
+    <div id='posts-list-container'>
+      <ul class="centerList">
         <%for(post of posts){%>
            <%-include('_postCont')%>
         <%}%>
@@ -30,7 +30,7 @@
   <div id="right">
     <h3>Friends</h3>
     <div id="userList">
-      <ul>
+      <ul >
         <%for(userCurr of userL){%>
            <li>
             <i class="fas fa-solid fa-user"></i>
@@ -42,4 +42,7 @@
   </div>
    
 </div>
+<script src="/js/home_post_comments.js" type='text/javascript' defer></script>
 <script src="/js/home_posts.js" type='text/javascript' defer></script>
+
+
