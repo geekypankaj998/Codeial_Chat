@@ -4,7 +4,7 @@ const Comment =  require('../../../models/comment');
 module.exports.index = function(req,resp){
   return resp.status(200).json({
       data : {
-        info : 'Hi thi is an Test API for now!! :)'
+        info : 'Hi this is an Test API for now!! :)'
       },
       message : 'Long live India and work for India'
   }); 
@@ -45,7 +45,7 @@ try{
 module.exports.destroyPost = async function(req,resp){
  try{
   let post = await Post.findById(req.params.id);
-    
+    if(post.user == req.user.id){
       post.remove();
       let comm = await Comment.deleteMany({post : req.params.id});
     
@@ -53,16 +53,21 @@ module.exports.destroyPost = async function(req,resp){
         data : 'Post and associated Comments Deleted',
         message : 'SuccessFull'
       });
-  }
-
-  catch(err){
+  
+    }else{
+      return resp.json(401,{
+        message : 'You are not allowed to delete this message'   
+      });
+    }
+  }catch(err){
      return resp.json(500,{
        data:{
          info:'Internal Error 500 Occured',
          message : 'There was some chaos there !!!'
        }
      });
-  }
+   }
+}
+      
 
- }
 

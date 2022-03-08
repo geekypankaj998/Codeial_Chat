@@ -102,7 +102,6 @@ module.exports.create = function(req,resp){
 
 module.exports.createSession = function(req,resp){
   console.log('Inside User Create Session @@@!!!!');  
-  
   req.flash('success','Logged In Successfully :)');
   console.log('Sign In success#####');
   return resp.redirect('/users/home');  

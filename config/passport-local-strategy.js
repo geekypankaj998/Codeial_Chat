@@ -55,7 +55,7 @@ passport.checkAuthenticated = function(req,resp,next){
 //want to display content on views
 passport.setAuthenticated = function(req,resp,next){  
     if(req.isAuthenticated()){ //req.user contains curent signed user cookie so just passing this to the local views
-      resp.locals.user = req.user;
+      resp.locals.user = req.user; //this req.user is set up passport via session cookie  
     }
     return next();
 }
