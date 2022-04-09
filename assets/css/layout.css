@@ -18,3 +18,18 @@ button{
   color:white;
   background-color: lightskyblue;
 }
+.inlineStyle{
+  display:inline-block;
+  margin-left:30px;
+}
+
+/* Common Styling for Likes will be used in Post.ejs and comment.ejs */
+.horizontalStyle{
+  display:flex;
+  
+}
+
+.vertStyle{
+  display:flex;
+  flex-direction:column;
+}

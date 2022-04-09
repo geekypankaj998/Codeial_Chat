@@ -4,21 +4,35 @@
      let newPostForm = $('#new-post-form');
       newPostForm.submit(function(e){
          e.preventDefault();
+         console.log('AJAX call for Post Submit Done :)))');
          $.ajax({
            url:"/post/save",
            method:"POST",
            data : newPostForm.serialize(),
            success: function(data){
-                   console.log('&&&&&&&&&&&&&',data);
+                   console.log('&&&&&&&&&&&&& Inside Home Post AJAX : ',data);
                    let arg = data.data;
                    console.log(arg);
                    let newPost = newPostDom(arg);
                 
                    $('#posts-list-container>ul').prepend(newPost);
+                  // in JS we used to do selector('#anytarget then inside that place')
+                   //  in Jquery it could done by targetting the newly created DOM inside that getting the delete Class 
                    deletePost($(' .delPost', newPost));
 
                    // call the create comment class
                    new PostComments(data.data.post._id);
+
+                   //call ToggleLike class on each delLike class elements inside ajax added content
+                  //  $(' .delLike',newPost).each(function(){
+                  //   console.log(this);
+                  //   new ToggleLike(this);
+                  //  });
+                 
+                  // above linking/binding of ToggleLike class can also be done in this way:
+                  // this is the shortcut for the above task
+                  new ToggleLike(' .delLike',newPost);
+
                    new Noty({
                     theme: 'relax',
                     text: "Post Created",
@@ -41,11 +55,21 @@
   let newPostDom = function(data){
          console.log('Inside createDOMPost',data.post);
       return $(`<li id="post-${data.post._id}">
-      <p class="postInfo">
-       
-          <a class='fas fa-trash delPost' href="/post/destroy/${data.post._id}"></a> 
+        <p class="postInfo">
+        <div class="horizontalStyle">
+          <div class="inlineStyle">
+            <a href="/like/toggle/?id=${data.post._id}&type=Post" class="delLike" data-like="0"><i class="fas fa-regular fa-thumbs-up">0</i></a> 
+          </div>
+
+
+          <div class="inlineStyle">
+            <strong>${data.post.content}</strong>
+          </div>
+        </div>
          
-         ${data.post.content}
+        <a class='fas fa-trash delPost' href="/post/destroy/${data.post._id}"></a>
+      
+        
          <br>
         <small class="userName">
          ${data.post.user.name}
@@ -109,13 +133,13 @@
           deletePost(deleteButton);
 
           // get the post's id by splitting the id attribute
-          let postId = self.prop('id').split("-")[1]
+          let postId = self.prop('id').split("-")[1];
+
           new PostComments(postId);
       });
   }
 
-  console.log(this);
-
+  console.log('Checking');
   createPost();
   convertPostsToAjax();
 }

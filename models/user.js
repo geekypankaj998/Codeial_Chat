@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     }, 
     avatar:{
       type : String
-    }
+    },
+    friendship:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Friendship'
+    }]
 },
    {
    timestamps:true           //It keeps a log of creation and updation of objects here user objects

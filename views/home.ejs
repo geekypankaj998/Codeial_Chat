@@ -21,28 +21,52 @@
     <div id='posts-list-container'>
       <ul class="centerList">
         <%for(post of posts){%>
-           <%-include('_postCont')%>
+           <%- include('_postCont') %>
         <%}%>
          </ul>
     </div> 
   </div>
    
   <div id="right">
-    <h3>Friends</h3>
     <div id="userList">
+      <%if(locals.user){%>
+        <h3>Friends</h3>
+        <ul >
+          <%for(userCurr of userL){%>
+             <li>
+              <i class="fas fa-solid fa-user"></i>
+              <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
+             </li>
+          <%}%>
+        </ul> 
+      <%}%>
+      <hr>
+      <h3>Users</h3>
       <ul >
         <%for(userCurr of userL){%>
-           <li>
-            <i class="fas fa-solid fa-user"></i>
-            <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
-           </li>
+          <%if(locals.user){%>
+           <%if(locals.user.id!==userCurr.id){%>
+            <li>
+              <i class="fas fa-solid fa-user"></i>
+              <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
+             </li>
+          <%}%>
+        <%}else{%>
+            <li>
+              <i class="fas fa-solid fa-user"></i>
+              <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
+             </li>
+          <%}%>
+           
         <%}%>
       </ul> 
    </div>
   </div>
    
 </div>
+
 <script src="/js/home_post_comments.js" type='text/javascript' defer></script>
 <script src="/js/home_posts.js" type='text/javascript' defer></script>
+<script src="/js/like_handler.js" type="text/javascript" defer></script>
 
 

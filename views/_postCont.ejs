@@ -1,32 +1,54 @@
 <link rel="stylesheet" href="/css/post.css">
-<li id="post-<%=post.id%>">
-  <p class="postInfo">
-    <%if(locals.user && post.user.id == locals.user.id){%>
-      <a class='fas fa-trash delPost' href="/post/destroy/<%=post.id%>"></a> 
-    <%}%>  
-   <!--The above check helped to check whether post.user.id == locals.user.id has it has been prepopulated from back end so post.user is a full fledged object-->
-    <%=post.content%>
-    <br>
-    <small class="userName">
-      <%=post.user.name%>
-    </small>
-  </p>
+<link rel="stylesheet" href="/css/post.css">
+<li id="post-<%=post.id%>"> 
+ <p class="postInfo">
+   <div class="horizontalStyle">
+     <div class="inlineStyle">
 
-  <div class="post-comment-box">
-    <%if(locals.user){%>
-    <form class="formStyle commForm" id="post-<%=post._id%>-comments-form" action="/comment/save" method="POST">
-      <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your comments here" required></textarea>
-      <!-- <input type="submit" value="Add Comment"> -->
-      <button type="submit">Add Comment</button>
-      <input type="hidden" name="post" value='<%=post.id%>'>
-    </form>
+       <%if(locals.user){%>
+         <a href="/like/toggle/?id=<%=post._id%>&type=Post" class="delLike" data-like="<%=post.like.length%>">
+           <i class="fas fa-regular fa-thumbs-up"> <%=post.like.length%></i>
+         </a> 
+       <%}else{%>
+         <i class="fas fa-regular fa-thumbs-up"><%=post.like.length%></i>
+       <%}%>
+
+     </div>
+     
+ 
+     <div class="inlineStyle">
+       <strong><%=post.content%></strong>
+     </div>
+   </div>
+
+   <%if(locals.user && post.user.id == locals.user.id){%>
+     <a class='fas fa-trash delPost' href="/post/destroy/<%=post._id%>"></a> 
+   <%}%>   
+    <!--The above check helped to check whether post.user.id == locals.user.id has it has been prepopulated from back end so post.user is a full fledged object-->
+   <br>
+   <small class="userName">
+     <%=post.user.name%>
+   </small> 
+  
+ </p>
+
+ <div class="post-comment-box">
+   <%if(locals.user){%>
+   <form class="formStyle commForm" id="post-<%=post._id%>-comments-form" action="/comment/save" method="POST">
+     <textarea name="content" id="" cols="30" rows="3" placeholder="Enter your comments here" required></textarea>
+     <!-- <input type="submit" value="Add Comment"> -->
+     <button type="submit">Add Comment</button>
+     <input type="hidden" name="post" value='<%=post.id%>'>
+   </form>
+   <%}%>
+ <div class="post-list-comments ">
+  <ul id="comment-<%=post._id%>" class="centerList">
+    <%for(comment of post.comments){%>
+     
+      <%-include('_comments') %> 
+
     <%}%>
-  <div class="post-list-comments ">
-    <ul id="comment-<%=post._id%>" class="centerList">
-      <%for(comment of post.comments){%>
-        <%-include('_comments') %> 
-      <%}%>
-    </ul>
+  </ul>
 
-  </div>
+ </div>
 </li>

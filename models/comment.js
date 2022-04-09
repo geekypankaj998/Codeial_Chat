@@ -15,7 +15,11 @@ const commentSchema = new mongoose.Schema({
      post :{
        type: mongoose.Schema.Types.ObjectId,
        ref: 'Post'
-     } 
+     },
+     like:[{
+       type: mongoose.Schema.Types.ObjectId,
+       ref :'Like'
+     }]   //this array contains info for all the likes on this comment like various users could like it 
 },{
   timestamps : true
 });

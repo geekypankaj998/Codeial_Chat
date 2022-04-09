@@ -1,5 +1,8 @@
 const User = require('../models/user'); 
 const Post = require('../models/post'); 
+const Like = require('../models/like'); 
+const Friendship = require('../models/friend');
+
 const passport = require('passport');
 const multer = require('multer');
 const fs = require('fs');
@@ -9,18 +12,27 @@ module.exports.home = async function(req,resp){
 
      //now mapping Post table with User  Table 
     console.log('Inside Home'+req.user);
+
     try{
+      console.log('<<<<<<<>>>>>>>>>>> Inside Home controller');
+
     let posts = await Post.find({})
     .sort('-createdAt')
-    .populate('user')
+    .populate({
+      path:'user',
+      populate:{
+        path:'friendship'
+      }
+    })
     .populate({
       path:'comments',
-      populate:{
+      populate:{       
         path:'user'
-      }
-    });
+      }});
+   
+  
 
-    let users = await User.find({});
+    let users = await User.find({}).populate('friendship');
 
     return resp.render('home',{
       title:'Codeial Home',
@@ -33,15 +45,40 @@ module.exports.home = async function(req,resp){
 
 }
 
-module.exports.profile = function(req,resp){
-  User.findById(req.params.id,function(err,user){
-    return resp.render('user',{
-      title: 'Codeial User',
-      head : 'Inside User Profile',
-      descriptn : 'This is user Profile Page',
-      userCurrPro : user
-    });
-  });
+module.exports.profile = async function(req,resp){
+  try{
+    let user = await User.findById(req.params.id).populate('friendship');  //Getting info for user Profile that is clicked
+      console.log('Profile User ',user);
+      console.log('Profile User %%%%',user.friendship);
+      
+      //getting User info about logged in User
+     
+      console.log('Logged in User : ',req.user);
+      let userC = await User.findById(req.user._id).populate('friendship');
+      
+      let friendList = userC.friendship;
+      let isFriend = false; 
+      for(itr of friendList){
+          if(itr.to_User==req.params.id){     //checking whether that profile that is opened is the friend of loggedIn user
+          //I am only checking on Logged In User friendList as once a new friend isadded that will be added inside loggedIn and profile Clicked user both document 
+            isFriend = true;
+            break;  
+          } 
+      }
+     
+      return resp.render('user',{
+        title: 'Codeial User',
+        head : 'Inside User Profile',
+        descriptn : 'This is user Profile Page',
+        userCurrPro : user,
+        isFriend : isFriend
+      });
+   
+  }catch(err){
+    console.log('Error Occured');
+     return ;
+  }
+  
 }
 //action for Sign Up page
 module.exports.signUp = function(req,resp){
@@ -102,6 +139,7 @@ module.exports.create = function(req,resp){
 
 module.exports.createSession = function(req,resp){
   console.log('Inside User Create Session @@@!!!!');  
+  
   req.flash('success','Logged In Successfully :)');
   console.log('Sign In success#####');
   return resp.redirect('/users/home');  
@@ -207,3 +245,92 @@ module.exports.update = async function(req,resp){
    
 }
 
+module.exports.addFriend = async function(req,resp){
+ 
+    console.log(' Inside Friend Controller ');
+    console.log('This is REQ : : ',req);
+    let val = req.body;
+
+    console.log('Req Params Obj : ',req.params);
+    console.log('Req Params : ',req.params.id);
+    console.log("Val Body : ",val);
+    console.log(val.typeS);
+    console.log('Front end object : ',req.data);
+    let isFriend = req.body.friendType;
+    console.log('Form Inp : ',req.body.friendType);
+    // fetching the loggedIn user
+    let friendStatus = false;
+    try{
+
+      let currUser = User.findById(req.user._id).populate('friendship');
+       
+      // fetching the user whose profile/link to profile is clicked
+      let profileUser = User.findById(req.params.id).populate('fiendship');
+  
+      if(isFriend==false){   //Both are friends with each other new entry
+        let friendObjCurr = Friendship.create({
+          from_user : req.user._id,
+          to_user:  req.params.id
+       });
+ 
+       currUser.friendship.push(friendObjCurr);
+       currUser.save();
+ 
+       let friendObjPro = Friendship.create({
+         from_user : req.params.id,
+         to_user:  req.user._id
+      });
+  
+      // I need to add in current user friend List this profile user and vice-versa
+      // First of all creating an object for friend document then adding that obj inside User friendshio array
+       profileUser.friendship.push(friendObjPro);
+       profileUser.save(); 
+       friendStatus = true;   //I have created the friendShip
+      //  if front end I should see noe remove friend
+
+      }
+      else{
+        //If this then I need to remove this user from current logged in users friendship arrayList
+        // that is both the user should remove this friendship
+        
+        // first removeing from loggedIn user List
+
+        currUser.friendship.pull({
+           from_user : req.body.id,
+           to_user : req.params.id
+        });
+        currUser.save();
+
+        profileUser.friendship.pull({
+          from_user : req.params.id,
+          to_user : req.body.id
+        });
+        profileUser.save();
+       
+       // and deleting that entry from Friend Schema also
+       Friendship.findOneAndDelete({
+        from_user : req.body.id,
+        to_user : req.params.id
+       }); 
+
+       Friendship.findOneAndDelete({
+        from_user : req.params.id,
+        to_user :  req.body.id
+       });
+
+        friendStatus = false;
+      }
+
+      
+      if(req.xhr){
+        console.log('This is a AJAX call to add friend');
+         return resp.status(200,{
+           data : isFriend
+         });
+      } 
+    }catch(err){
+       console.log('Error Occured : ',err);
+       return;
+    }
+    
+}

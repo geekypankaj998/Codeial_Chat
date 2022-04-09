@@ -4,11 +4,12 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 const User = require('./models/user');
+const Friend = require('./models/friend');  //If I didn't inclded this modal here then it throws error that schema is not registered because User is included here & in it , it references to the friend modal so need to include this also
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const passportJWT = require('./config/passport-jwt-strategy');
-
+const passportGoogle = require('./config/passport-google-oauth2-strategy');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');

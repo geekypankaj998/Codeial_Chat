@@ -1,3 +1,12 @@
 body{
   background :linear-gradient(violet,lightblue,grey,white);
 }
+/* .horizontStyle{
+  display:flex;
+  justify-content:space-around;
+}
+
+.vertStyle{
+  display:flex;
+  flex-direction:column;
+} */

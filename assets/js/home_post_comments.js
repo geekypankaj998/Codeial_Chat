@@ -1,3 +1,8 @@
+// Let's implement this via classes
+
+// this class would be initialized for every post on the page
+// 1. When the page loads
+// 2. Creation of every post dynamically via AJAX
 class PostComments{
   // constructor is used to initialize the instance of the class whenever a new instance is created
   constructor(postId){
@@ -7,10 +12,11 @@ class PostComments{
 
       this.createComment(postId);
  
-      let self = this;
+      let self = this; //the current object
       // call for all the existing comments
       $(' .delComment', this.postContainer).each(function(){
           self.deleteComment($(this));
+          //here this is the link on which click is made
       });
   }
 
@@ -51,19 +57,33 @@ class PostComments{
 
 
   newCommentDom(comment){
-      // I've added a class 'delete-comment-button' to the delete comment link and also id to the comment's li
-      return $(`<li id="${ comment._id }">
+      // I've added a class 'delComment-button' to the delete comment link and also id to the comment's li
 
-         <a class=" fas fa-trash delComment" href="/comment/destroy/${comment._id}"></a>   
-         <p>
-         ${comment.content}
-         <br>
-         <small>
-           ${comment.user.name}
-         </small>
-        </p>    
+    return(`<li id="${comment._id}">
+    <p >
+        <div class="horizontalStyle"> 
+          <div class="inlineStyle">
+         
+            <a href="/like/toggle/?id=${comment._id}&type=Comment" class="delLike" data-like="0"><i class="fas fa-regular fa-thumbs-up"> 0
+            </i>
+            </a> 
+            
+          </div>
+         
+          <div  class="inlineStyle">
+              ${comment.content}
+          </div>
+        </div>
 
-              </li>`);
+       <small>
+        ${comment.user.name}
+       </small>
+    </p>
+      
+        <a class='fas fa-trash delComment' href="/comment/destroy/${comment._id}"></a> 
+    
+    </li>`); 
+
   }
 
 

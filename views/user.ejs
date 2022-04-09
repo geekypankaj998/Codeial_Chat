@@ -7,6 +7,24 @@
 <p>User Name :<%=userCurrPro.name%></p>
 <p>User Email : <%=userCurrPro.email%></p>
 
-<%if(user.id == userCurrPro.id ){%>
+<%if(locals.user.id == userCurrPro.id ){%>
  <%-include('_formUpdate')%>
 <%}%>
+
+<div>
+  <!-- In my own Profile I dont want to see add friend button/remove -->
+ <%=isFriend%>
+  <%if(locals.user.id !== userCurrPro.id){%>
+    
+    <form id='friendForm' action="/users/addFriend/<%=userCurrPro.id%>" method="POST">
+      <%if(isFriend){%>
+        <button type="submit"  data-like="<%=isFriend%>" name="friendType" value="yesFriend">Remove Friend</button>
+      <%}else{%>
+        <button type="submit"  data-like="<%=isFriend%>" name="friendType" value="noFriend">Add Friend</button>
+      <%}%>
+    </form>
+  <%}%>
+  <!-- Add this Check this -->
+</div>
+
+<script src="/js/addFriend.js" type="text/javascript" defer></script> 

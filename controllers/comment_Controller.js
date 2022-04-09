@@ -1,6 +1,9 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-
+const Like = require('../models/like');
+const commentMailer = require('../mailers/comments_mailer');
+const commentEmailWorker = require('../workers/comments_email_worker');
+const queue = require('../config/kue');
 module.exports.save = async function(req,resp){
   //check whether the post exist on which comment is made 
   // Post.findById(req.body.post,function(err,post){
@@ -32,8 +35,21 @@ module.exports.save = async function(req,resp){
             post.save();  
             console.log('Inside Comment Save');
             req.flash('success','Comment saved');
+            comment = await comment.populate('user','name email');
+            // commentMailer.newComment(comment);    //Earlier we used to do this way like initiating each job immediately
+            // But now we would use here delayed job
+            // for that we have defined the config and set up Kue
+            // and defined the worker for this so will pass the task to thgat worker
+            // Now calling the queue worker to process the job
+            let job = queue.create('emails',comment).save(function(err){
+              if(err){
+                 console.log('Occur occured',err);
+                 return;  
+              }
+              console.log('Jobb was triggered successfully : ',job.id);
+            });
           if(req.xhr){
-             comment = await comment.populate('user','name');
+           
              return resp.status(200).json({
                comment : comment
               });  
@@ -90,6 +106,16 @@ module.exports.destroy = async function(req,resp){
     let post = await Post.findById(postID);
     let indComm = post.comments.indexOf(req.params.id);
     post.comments.splice(indComm,indComm+1);
+
+  // A smaller way to achieve the above task 
+  // CHANGE :: destroy the associated likes for this comment
+  // let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});    //practice
+  //here postId is the _id of the post 
+  
+
+    //deleting all the likes associated with that comment in our Like Document/DB
+    await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
+
     req.flash('success','Comment Delete');
     post.save();
     if(req.xhr){

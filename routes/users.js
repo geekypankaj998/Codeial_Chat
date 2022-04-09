@@ -10,6 +10,9 @@ router.get('/profile/:id',passport.checkAuthenticated,userController.profile);
 router.post('/create',userController.create);
 router.get('/signOut',userController.signOut);
 router.post('/update/:id',passport.checkAuthenticated,userController.update);
+router.post('/addFriend/:id',passport.checkAuthenticated,userController.addFriend);
+
+
 //here we need middleware during calling createsession passport middleware
 
 router.post('/create-session',passport.authenticate(

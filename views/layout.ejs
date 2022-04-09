@@ -24,7 +24,12 @@
    <div>
     <%- include('_footer'); %>
    </div>
-
+   <div>
+     <%if(locals.user){%>
+      <%- include('_chat'); %>
+     <%}%>
+    
+   </div>
   <%- script%>
 
   <script> 
