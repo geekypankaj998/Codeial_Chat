@@ -1,0 +1,1 @@
+let show=!1;$("#chatHead").click((function(){0==show?($("#innerBlock").css({display:"flex","flex-direction":"column"}),$("#innerBlockDiv").css({display:"flex","flex-direction":"column"}),console.log("Show Val : ",show),show=!0):($("#innerBlock").css({display:"none"}),console.log("Show Val : ",show),show=!1),$("#innerBlock").toggleClass("toggleClass")}));

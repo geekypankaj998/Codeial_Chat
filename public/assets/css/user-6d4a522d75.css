@@ -1,0 +1,14 @@
+#runTime{
+  background:linear-gradient(violet,rgb(31, 129, 221));
+  color:white;
+  text-align: left;
+}
+#imageBlock{
+  width:150px;
+  height:150px;
+  margin-top:10px;
+}
+#imageBlock img{
+  width:100%;
+  height:100%;
+}
