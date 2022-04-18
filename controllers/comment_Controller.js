@@ -39,7 +39,7 @@ module.exports.save = async function(req,resp){
             // commentMailer.newComment(comment);    //Earlier we used to do this way like initiating each job immediately
             // But now we would use here delayed job
             // for that we have defined the config and set up Kue
-            // and defined the worker for this so will pass the task to thgat worker
+            // and defined the worker for this so will pass the task to that worker
             // Now calling the queue worker to process the job
             let job = queue.create('emails',comment).save(function(err){
               if(err){

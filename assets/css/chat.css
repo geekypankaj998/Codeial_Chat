@@ -33,17 +33,24 @@ form:hover{
 }
 
 #innerBlockDiv div{
-  width:200px;
-  height:65px;
-  margin:10px 5px;
-  overflow-y: scroll;
+  width:100px;
+  margin:5px 5px;
+  border :1px solid grey;
+  border-radius:5px;
 }
-  
-#innerBlockDiv div:nth-of-type(2n){
+ 
+#innerBlockDiv {
+  overflow-y: scroll;
+  height:270px;
+}
+#innerBlockDiv div{
+  text-align:left;
+}
+#innerBlockDiv .selfMessage{
   align-self:flex-end;
   background-color: rgb(246, 222, 179);
 }
-#innerBlockDiv div:nth-of-type(2n+1){
+#innerBlockDiv .otherMessage{
   align-self:flex-start;
   background-color: rgb(179, 235, 246);
 }
@@ -53,18 +60,21 @@ form:hover{
 
 #chatInp{
   position:fixed;
- 
   width:260px;
- 
   box-sizing:border-box;
   display: flex;
   margin:auto;
   bottom:0px; 
+  flex-direction:row;
 }
-#chatInp div{
-  overflow-y:hidden;
-  overflow-x:hidden;
+
+
+#chatInp input,#chatInp button{
+  height: inherit;
+  margin-bottom: 0px;
 }
+
+
 
 
 

@@ -32,12 +32,15 @@ module.exports.home = async function(req,resp){
    
   
 
-    let users = await User.find({}).populate('friendship');
+    let users = await User.find({});
+
+    let currUser = await User.findById(req.user._id).populate('friendship');
 
     return resp.render('home',{
       title:'Codeial Home',
       posts : posts,
-      userL : users
+      userL : users,
+      currUser : currUser
      });
     }catch(err){
       console.log('Error Occured',err);
@@ -47,19 +50,21 @@ module.exports.home = async function(req,resp){
 
 module.exports.profile = async function(req,resp){
   try{
-    let user = await User.findById(req.params.id).populate('friendship');  //Getting info for user Profile that is clicked
+    let user = await User.findById(req.params.id);  //Getting info for user Profile that is clicked
       console.log('Profile User ',user);
-      console.log('Profile User %%%%',user.friendship);
+      console.log('Profile User FriendShip Array : ',user.friendship);
       
       //getting User info about logged in User
      
       console.log('Logged in User : ',req.user);
-      let userC = await User.findById(req.user._id).populate('friendship');
+      let userC = await User.findById(req.user._id);
       
       let friendList = userC.friendship;
       let isFriend = false; 
       for(itr of friendList){
-          if(itr.to_User==req.params.id){     //checking whether that profile that is opened is the friend of loggedIn user
+        console.log('Iterator : ',itr);
+          
+          if((itr)==(req.params.id)){     //checking whether that profile that is opened is the friend of loggedIn user
           //I am only checking on Logged In User friendList as once a new friend isadded that will be added inside loggedIn and profile Clicked user both document 
             isFriend = true;
             break;  
@@ -150,6 +155,7 @@ module.exports.signOut = function(req,resp){
   req.flash('success','Logged Out :)');
   return resp.redirect('/');
 }
+
 module.exports.update = async function(req,resp){
   
   // console.log()
@@ -248,74 +254,77 @@ module.exports.update = async function(req,resp){
 module.exports.addFriend = async function(req,resp){
  
     console.log(' Inside Friend Controller ');
-    console.log('This is REQ : : ',req);
-    let val = req.body;
 
-    console.log('Req Params Obj : ',req.params);
-    console.log('Req Params : ',req.params.id);
-    console.log("Val Body : ",val);
-    console.log(val.typeS);
-    console.log('Front end object : ',req.data);
-    let isFriend = req.body.friendType;
-    console.log('Form Inp : ',req.body.friendType);
+
+    console.log('Front end object : ',req.body);
+    let isFriend = req.body.friendshipStatus;
+    console.log('Form Inp Frienship Value : ',isFriend);
     // fetching the loggedIn user
     let friendStatus = false;
     try{
 
-      let currUser = User.findById(req.user._id).populate('friendship');
+      let currUser = await User.findById(req.user._id);
        
       // fetching the user whose profile/link to profile is clicked
-      let profileUser = User.findById(req.params.id).populate('fiendship');
-  
-      if(isFriend==false){   //Both are friends with each other new entry
-        let friendObjCurr = Friendship.create({
+      let profileUser = await User.findById(req.params.id);
+
+      console.log('Current user : ',currUser);
+      console.log('Profile user : ',profileUser);
+
+      if(isFriend=='false'){   //Both are friends with each other new entry
+        let friendObjCurr = await Friendship.create({
           from_user : req.user._id,
           to_user:  req.params.id
        });
+       console.log('BOTH ARE NOT FRIENDS TILL NOW'); 
+       console.log('Friend Info added into Logged In User FreindShip Array : ',friendObjCurr);
  
-       currUser.friendship.push(friendObjCurr);
+      await currUser.friendship.push(req.params.id);
        currUser.save();
- 
-       let friendObjPro = Friendship.create({
-         from_user : req.params.id,
-         to_user:  req.user._id
-      });
-  
+//  
+      //  let friendObjPro = await Friendship.create({
+      //    from_user : req.params.id,
+      //    to_user:  req.user._id
+      // });  No need of this consider if A is a friend of B that also means B is a fruiend of B as it is mutual 
+
+      // console.log('Friend Info added into Profile of the user selected In User FreindShip Array : ',friendObjPro);
+      //
+
       // I need to add in current user friend List this profile user and vice-versa
       // First of all creating an object for friend document then adding that obj inside User friendshio array
-       profileUser.friendship.push(friendObjPro);
+
+       await profileUser.friendship.push(req.user._id);
        profileUser.save(); 
        friendStatus = true;   //I have created the friendShip
       //  if front end I should see noe remove friend
-
+       console.log('Friendship for Bothe the user created : ',friendStatus);
       }
       else{
         //If this then I need to remove this user from current logged in users friendship arrayList
         // that is both the user should remove this friendship
         
         // first removeing from loggedIn user List
+        console.log('BOTH ARE ALREADY FRIENDS '); 
+         
+        // Now I need to remove the frienship 
+        // LoggedIn user's Friendsip array I will remove that friend
+        await currUser.friendship.pull(req.params.id);
+        await  currUser.save();
+        
+      //  ||arly I should remove from profile user's frienship array the loggedIn user's id 
+      await profileUser.friendship.pull(req.user._id);
+      await  profileUser.save();
+      
 
-        currUser.friendship.pull({
-           from_user : req.body.id,
-           to_user : req.params.id
-        });
-        currUser.save();
-
-        profileUser.friendship.pull({
-          from_user : req.params.id,
-          to_user : req.body.id
-        });
-        profileUser.save();
-       
        // and deleting that entry from Friend Schema also
-       Friendship.findOneAndDelete({
-        from_user : req.body.id,
+      await Friendship.findOneAndDelete({
+        from_user : req.user._id,
         to_user : req.params.id
        }); 
 
-       Friendship.findOneAndDelete({
+      await Friendship.findOneAndDelete({
         from_user : req.params.id,
-        to_user :  req.body.id
+        to_user :  req.user._id
        });
 
         friendStatus = false;
@@ -323,10 +332,11 @@ module.exports.addFriend = async function(req,resp){
 
       
       if(req.xhr){
-        console.log('This is a AJAX call to add friend');
-         return resp.status(200,{
-           data : isFriend
-         });
+        console.log('This is a AJAX call to add friend',friendStatus);
+        return resp.json(200,{
+          data:friendStatus,
+          message: "Post Created successfully",
+        });
       } 
     }catch(err){
        console.log('Error Occured : ',err);

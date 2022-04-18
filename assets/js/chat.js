@@ -25,4 +25,8 @@ $('#chatHead').click(function(){
   }
    $('#innerBlock').toggleClass('toggleClass');
 
-})
+});
+
+ 
+
+  

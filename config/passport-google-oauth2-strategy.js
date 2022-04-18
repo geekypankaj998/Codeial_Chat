@@ -1,14 +1,14 @@
 const passport = require('passport');
 const googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');
-
+const env = require('./environment');
 const User = require('../models/user');
 
 //request for signing via Google
 passport.use(new googleStrategy({
-    clientID : '215189006290-eb2l49cstdj7lg7s9fqc1umqk4nrb6e5.apps.googleusercontent.com',
-    clientSecret : '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',
-    callbackURL : 'http://localhost:8000/users/auth/google/callback'
+    clientID : env.google_clientID,
+    clientSecret :env.google_clientSecret,
+    callbackURL : env.google_callbackURL
   },
    function(accessToken,refreshToken,profile,done){   //accessTokens are used to define/provide various functionality to the service like getting mapInfo,timezone etc  
    //This accessToken is provided by google 

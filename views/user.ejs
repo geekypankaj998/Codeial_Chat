@@ -13,7 +13,7 @@
 
 <div>
   <!-- In my own Profile I dont want to see add friend button/remove -->
- <%=isFriend%>
+
   <%if(locals.user.id !== userCurrPro.id){%>
     
     <form id='friendForm' action="/users/addFriend/<%=userCurrPro.id%>" method="POST">

@@ -21,7 +21,7 @@
      </div>
    </div>
 
-   <%if(locals.user && post.user.id == locals.user.id){%>
+   <%if(locals.user && post.user._id == locals.user._id){%>
      <a class='fas fa-trash delPost' href="/post/destroy/<%=post._id%>"></a> 
    <%}%>   
     <!--The above check helped to check whether post.user.id == locals.user.id has it has been prepopulated from back end so post.user is a full fledged object-->

@@ -1,10 +1,13 @@
 const express = require('express');
 const port = 8000;
 const app = express();
+const env = require('./config/environment');
+const logger = require('morgan');
+const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
 const User = require('./models/user');
-const Friend = require('./models/friend');  //If I didn't inclded this modal here then it throws error that schema is not registered because User is included here & in it , it references to the friend modal so need to include this also
+const Friend = require('./models/friend');  //If I didn't included this modal here then it throws error that schema is not registered because User is included here & in it , it references to the friend modal so need to include this also
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
@@ -15,9 +18,17 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 
+
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_socket').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('Server setup done---->>>');
+
+
+app.use(logger(env.morgan.interval,env.morgan.options));
 app.use(express.urlencoded()); //Fetching content during Posting from Forms 
 app.use(cookieParser()); //Provides functionality for Cookies
-app.use(express.static('./assets'));
+app.use(express.static(path.join(__dirname,env.asset_path)));
 app.use(expressLayouts);   //This needs to be done before routing as there we are using views
 
 app.use('/uploads',express.static(__dirname+'/uploads'));
@@ -33,7 +44,7 @@ app.set('views','./views');
 app.use(session({
   name : 'codeial',
   //this helps in encryption will set it whe will be deploying the code on server
-  secret : 'blahsomething',
+  secret : env.session_cookie_key,
   saveUninitialized : false,          //when the user not logged in or identity is not established don't keep any info in cookie anything about him 
   resave:false,                       // that means rewriting the cookie again and again 
   cookie:{

@@ -1,18 +1,10 @@
 const nodemailer = require("nodemailer");
 const ejs = require('ejs');
 const path = require('path');
+const env = require('./environment');
 
   // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    service : 'gmail',
-    host: 'smtp.gmail.com',   //this is a domain that google has made for dev to interact with it
-    port: 587,
-    secure: false, 
-    auth: {
-      user: 'developerpandey11', // generated  user
-      pass: 'panduP@@11', // generated  password
-    },
-  });
+  let transporter = nodemailer.createTransport(env.smtp);
 
 
 let renderTemplate = (data,relativePath)=>{   //relativePath from where this function is called
@@ -24,9 +16,11 @@ let renderTemplate = (data,relativePath)=>{   //relativePath from where this fun
       if(err){ console.log('Error occured',err); return;}
       mailHTML = template
       console.log('Inside Config File for Nodemail RenderFile ',data);
-      return;
+     
     }
-    )
+    );
+    return mailHTML;
+    
 }
 
 module.exports = {

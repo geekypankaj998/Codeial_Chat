@@ -17,7 +17,7 @@ module.exports.homeUpdate = async function(req,resp){
 
 
     
-    let users = await User.find({});
+    let users = await User.find({}).populate('friendship');
     
       return resp.render('home',{
         title:'Codeial Home',

@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="/css/user_sign_up.css">
 <link rel="stylesheet" href="/css/home.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" ></script>
 <div class="vertAlign">
   <div id="left">
     <section>
@@ -32,10 +33,10 @@
       <%if(locals.user){%>
         <h3>Friends</h3>
         <ul >
-          <%for(userCurr of userL){%>
+          <%for(user of currUser.friendship){%>
              <li>
               <i class="fas fa-solid fa-user"></i>
-              <a href="/users/profile/<%=userCurr.id%>"><%=userCurr.name%></a>
+              <a href="/users/profile/<%=user.id%>"><%=user.name%></a>
              </li>
           <%}%>
         </ul> 
@@ -64,9 +65,18 @@
   </div>
    
 </div>
+<%if(locals.user){%>
+  <%- include('_chat'); %>
+ <%}%>
 
 <script src="/js/home_post_comments.js" type='text/javascript' defer></script>
 <script src="/js/home_posts.js" type='text/javascript' defer></script>
 <script src="/js/like_handler.js" type="text/javascript" defer></script>
+<script src="/js/chat_engine.js" type="text/javascript" ></script>
+<%if(locals.user){%>
+  <script>
+      new ChatEngine('chatBlock','<%=currUser.name%>','<%=currUser.email%>');
+  </script>
+<%}%>
 
 

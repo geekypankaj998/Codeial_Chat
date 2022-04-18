@@ -1,11 +1,12 @@
 const nodeMailer = require('../config/nodemailer');
+const env = require('../config/environment');
 
 exports.newComment = (comment)=>{
     console.log('Inside Comment Mailer',comment);
     let htmlString = nodeMailer.renderTemplate({comment : comment},'/comments/new_comments.ejs'); 
     console.log('The EJS contentt : ',htmlString);
     nodeMailer.transporter.sendMail({
-    from: 'developerpandey11@gmail.com', // sender address
+    from: `${env.systemEmail}`, // sender address
     to: comment.user.email, // list of receivers
     subject: "Account Activity", // Subject line
     html: htmlString // html body
