@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="/css/user_sign_up.css">
-<link rel="stylesheet" href="/css/home.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" ></script>
+<link rel="stylesheet" href="<%=assetPath('css/user_sign_up.css')%>">
+<link rel="stylesheet" href="<%=assetPath('css/home.css')%>">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <div class="vertAlign">
   <div id="left">
     <section>
@@ -69,10 +69,11 @@
   <%- include('_chat'); %>
  <%}%>
 
-<script src="/js/home_post_comments.js" type='text/javascript' defer></script>
-<script src="/js/home_posts.js" type='text/javascript' defer></script>
-<script src="/js/like_handler.js" type="text/javascript" defer></script>
-<script src="/js/chat_engine.js" type="text/javascript" ></script>
+<script src="<%=assetPath('js/home_post_comments.js')%>" type='text/javascript' defer></script>
+<script src="<%=assetPath('js/home_posts.js')%>" type='text/javascript' defer></script>
+<script src="<%=assetPath('js/like_handler.js')%>" type="text/javascript" defer></script>
+
+<script src="<%=assetPath('js/chat_engine.js')%>" type="text/javascript" ></script>
 <%if(locals.user){%>
   <script>
       new ChatEngine('chatBlock','<%=currUser.name%>','<%=currUser.email%>');

@@ -37,12 +37,12 @@ let storage = multer.diskStorage({
     cb(null, path.join(__dirname,'..',PATH_AVATAR));
   },
   filename: function (req, file, cb){
-    cb(null, file.fieldname + '-' + Date.now());   //+'.png'
+    cb(null, file.fieldname + '-' + Date.now()+'.png');   //+'.png'
   }
 });
 
 //static 
-console.log('Inside Multer ************',multer);
+
 userSchema.statics.uploadedAvatar =  multer({ storage: storage }).single('avatar'); //making multer understand that where is the destination and how to store file in the destination 
 //exposing this path to outer fikes if needed so can be accessed as needed
 userSchema.statics.path_avatar = PATH_AVATAR;

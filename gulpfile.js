@@ -7,12 +7,10 @@ const del = require("del");
 
 gulp.task('css',function(done){
 	console.log('minifying css..');
-	gulp.src('./assets/css/**/*.css') //** means every folder/sub-folder and file with .scss extension
-	// .pipe(sass())
-	.pipe(cssnano())
-	.pipe(gulp.dest('.public/assets.css'))
 
-	return gulp.src('./assets/**/*.css')
+
+   gulp.src('./assets/**/*.css')
+  .pipe(cssnano())
 	.pipe(rev())
 	.pipe(gulp.dest('./public/assets'))
 	.pipe(rev.manifest({
@@ -43,8 +41,7 @@ gulp.task("js", function (done) {
 
 gulp.task("images", function (done) {
   console.log("compressing images...");
-  gulp
-    .src("./assets/**/*.+(png|jpg|gif|svg|jpeg)")
+  gulp.src("./assets/**/*.+(png|jpg|gif|svg|jpeg)")
     .pipe(imagemin())
     .pipe(rev())
     .pipe(gulp.dest("./public/assets"))

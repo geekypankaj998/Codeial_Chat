@@ -1,5 +1,5 @@
 #runTime{
-  background-image: url('../images/friends.jpeg');
+  background-image: assetPath('images/friends.jpeg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

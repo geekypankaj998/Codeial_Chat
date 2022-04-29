@@ -6,12 +6,12 @@ console.log($('#friendForm'));
 //Linking the form button click with the  AJAX 
 let form = $('#friendForm');
 let id = form.attr('action').split('/')[3];
-let friendshipStatus = $('#friendForm button').attr('data-like');
-console.log('Friendship Status before Pressing Button : ',friendshipStatus);
+
 console.log(form);
 $('#friendForm').submit(function(e){
     e.preventDefault(); 
-    
+    let friendshipStatus = $('#friendForm button').attr('data-like');
+    console.log('Friendship Status before Pressing Button : ',friendshipStatus);
     $.ajax({
       method:'POST',
       url:`/users/addFriend/${id}`,

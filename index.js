@@ -1,6 +1,7 @@
 const express = require('express');
 const port = 8000;
 const app = express();
+require('./config/view-helper.js')(app);
 const env = require('./config/environment');
 const logger = require('morgan');
 const path = require('path');
@@ -30,6 +31,17 @@ app.use(express.urlencoded()); //Fetching content during Posting from Forms
 app.use(cookieParser()); //Provides functionality for Cookies
 app.use(express.static(path.join(__dirname,env.asset_path)));
 app.use(expressLayouts);   //This needs to be done before routing as there we are using views
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", req.header('Origin'));
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 
 app.use('/uploads',express.static(__dirname+'/uploads'));
 //this is used to extract styles and scripts for sub pages
@@ -68,7 +80,7 @@ app.use(customMware.setFlash); //Requring custom Middleware for adding req to re
 
 app.use('/',require('./routes'));
 
-
+console.log(env.name);
 app.listen(port,function(err){
   if(err){
       console.log(`Error occured at ${port} and the error is : ${err}`);

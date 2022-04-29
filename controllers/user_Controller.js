@@ -11,7 +11,7 @@ const paths = require('path');
 module.exports.home = async function(req,resp){
 
      //now mapping Post table with User  Table 
-    console.log('Inside Home'+req.user);
+    // console.log('Inside Home'+req.user);
 
     try{
       console.log('<<<<<<<>>>>>>>>>>> Inside Home controller');
@@ -51,12 +51,12 @@ module.exports.home = async function(req,resp){
 module.exports.profile = async function(req,resp){
   try{
     let user = await User.findById(req.params.id);  //Getting info for user Profile that is clicked
-      console.log('Profile User ',user);
-      console.log('Profile User FriendShip Array : ',user.friendship);
+      // console.log('Profile User ',user);
+      // console.log('Profile User FriendShip Array : ',user.friendship);
       
       //getting User info about logged in User
      
-      console.log('Logged in User : ',req.user);
+      // console.log('Logged in User : ',req.user);
       let userC = await User.findById(req.user._id);
       
       let friendList = userC.friendship;
@@ -89,7 +89,7 @@ module.exports.profile = async function(req,resp){
 module.exports.signUp = function(req,resp){
   
   if(req.isAuthenticated()){  //the user existed already
-    console.log('ALREADY Auth Done !!!');
+    // console.log('ALREADY Auth Done !!!');
     return resp.redirect('/users/profile');       
  }
   return resp.render('user_sign_up',{
@@ -101,7 +101,7 @@ module.exports.signUp = function(req,resp){
 module.exports.signIn = function(req,resp){
  
   if(req.isAuthenticated()){  //the user existed already
-    console.log('User Authentication Done Now Loading Home Page'); 
+    // console.log('User Authentication Done Now Loading Home Page'); 
      return resp.redirect('/users/home');       
   }
  
@@ -113,7 +113,7 @@ module.exports.signIn = function(req,resp){
 //Create User Page
 module.exports.create = function(req,resp){
     if(req.body.password!=req.body.confirm_password){
-      console.log('Both password dont match please enter again!!!');
+      // console.log('Both password dont match please enter again!!!');
       req.flash('info','Both password dont match please enter again!!!');
       return resp.redirect('back');
     }
@@ -131,7 +131,7 @@ module.exports.create = function(req,resp){
             password : req.body.password
           }, function(err,userN){
               if(err){console.log('Error Occured During Creation : ',err.message); return} //Error Occured During Creation then sending to SignUp Page 
-              console.log('Inside Create Function');
+              // console.log('Inside Create Function');
               return resp.redirect('/users/signIn');
           });  
       }
@@ -146,7 +146,7 @@ module.exports.createSession = function(req,resp){
   console.log('Inside User Create Session @@@!!!!');  
   
   req.flash('success','Logged In Successfully :)');
-  console.log('Sign In success#####');
+  // console.log('Sign In success#####');
   return resp.redirect('/users/home');  
 }
 
@@ -253,12 +253,9 @@ module.exports.update = async function(req,resp){
 
 module.exports.addFriend = async function(req,resp){
  
-    console.log(' Inside Friend Controller ');
-
-
-    console.log('Front end object : ',req.body);
+    // console.log('Front end object : ',req.body);
     let isFriend = req.body.friendshipStatus;
-    console.log('Form Inp Frienship Value : ',isFriend);
+    // console.log('Form Inp Frienship Value : ',isFriend);
     // fetching the loggedIn user
     let friendStatus = false;
     try{
@@ -268,19 +265,19 @@ module.exports.addFriend = async function(req,resp){
       // fetching the user whose profile/link to profile is clicked
       let profileUser = await User.findById(req.params.id);
 
-      console.log('Current user : ',currUser);
-      console.log('Profile user : ',profileUser);
+      // console.log('Current user : ',currUser);
+      // console.log('Profile user : ',profileUser);
 
       if(isFriend=='false'){   //Both are friends with each other new entry
         let friendObjCurr = await Friendship.create({
           from_user : req.user._id,
           to_user:  req.params.id
        });
-       console.log('BOTH ARE NOT FRIENDS TILL NOW'); 
-       console.log('Friend Info added into Logged In User FreindShip Array : ',friendObjCurr);
+      //  console.log('BOTH ARE NOT FRIENDS TILL NOW'); 
+      //  console.log('Friend Info added into Logged In User FreindShip Array : ',friendObjCurr);
  
       await currUser.friendship.push(req.params.id);
-       currUser.save();
+      await currUser.save();
 //  
       //  let friendObjPro = await Friendship.create({
       //    from_user : req.params.id,
@@ -297,7 +294,7 @@ module.exports.addFriend = async function(req,resp){
        profileUser.save(); 
        friendStatus = true;   //I have created the friendShip
       //  if front end I should see noe remove friend
-       console.log('Friendship for Bothe the user created : ',friendStatus);
+      //  console.log('Friendship for Bothe the user created : ',friendStatus);
       }
       else{
         //If this then I need to remove this user from current logged in users friendship arrayList
@@ -333,9 +330,9 @@ module.exports.addFriend = async function(req,resp){
       
       if(req.xhr){
         console.log('This is a AJAX call to add friend',friendStatus);
-        return resp.json(200,{
+        return resp.status(200).json({
           data:friendStatus,
-          message: "Post Created successfully",
+          message: "Friend Added successfully",
         });
       } 
     }catch(err){
