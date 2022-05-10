@@ -1,5 +1,9 @@
+require('dotenv').config();
 const express = require('express');
-const port = 8000;
+const port = process.env.PORT ;
+if(port=="" || port==null){
+  port=8000;
+}
 const app = express();
 require('./config/view-helper.js')(app);
 const env = require('./config/environment');
