@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const port = process.env.PORT ;
+const port = process.env.PORT || 8000 ;
 if(port=="" || port==null){
   port=8000;
 }

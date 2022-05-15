@@ -15,6 +15,7 @@ const development = {
   name:'development',
   asset_path : '/assets',
   session_cookie_key : 'blahsomething',
+  db : 'codeialDB',
   smtp: {
     service : 'gmail',
     host: 'smtp.gmail.com',   //this is a domain that google has made for dev to interact with it
@@ -40,6 +41,7 @@ const production = {
   name:'production',
   asset_path : process.env.CODEIAL_ASSET_PATH,  // done
   session_cookie_key : process.env.CODEIAL_SESSION_COOKIE_KEY,   // done
+  db : process.env.CODEIAL_DB, //done
   smtp: {
     service : 'gmail',
     host: 'smtp.gmail.com',   //this is a domain that google has made for dev to interact with it

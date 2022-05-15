@@ -3,7 +3,7 @@ const Post = require('../models/post');
 const Like = require('../models/like');
 const commentMailer = require('../mailers/comments_mailer');
 const commentEmailWorker = require('../workers/comments_email_worker');
-const queue = require('../config/kue');
+// const queue = require('../config/kue');
 module.exports.save = async function(req,resp){
   //check whether the post exist on which comment is made 
   // Post.findById(req.body.post,function(err,post){
@@ -41,13 +41,13 @@ module.exports.save = async function(req,resp){
             // for that we have defined the config and set up Kue
             // and defined the worker for this so will pass the task to that worker
             // Now calling the queue worker to process the job
-            let job = queue.create('emails',comment).save(function(err){
-              if(err){
-                 console.log('Occur occured',err);
-                 return;  
-              }
-              console.log('Jobb was triggered successfully : ',job.id);
-            });
+            // let job = queue.create('emails',comment).save(function(err){
+            //   if(err){
+            //      console.log('Occur occured',err);
+            //      return;  
+            //   }
+            //   console.log('Jobb was triggered successfully : ',job.id);
+            // });
           if(req.xhr){
            
              return resp.status(200).json({
