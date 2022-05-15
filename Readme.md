@@ -1,19 +1,32 @@
-{
-  "name": "codeial",
-  "version": "1.0.0",
-  "description": "My first Social Media App",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prod_start": "NODE_ENV=production nodemon index.js",
-    "start" : "node index.js"
-  },
-  "keywords": [
-    "social"
-  ],
-  "author": "Pankaj",
-  "license": "ISC",
-  "dependencies": {
+# Social Media App
+
+# Description
+
+This is a Social Media app that allows you to conect with your loved ones.
+
+# Features
+
+- SignIn/SignUp to the user both locally and Goggle Auth added
+
+- POST : Allows users to add profile Picture , Post comments and do like posts
+
+- ChatRoom : To chat with users
+
+# Components
+
+HTML,CSS,Javascript,
+Node.js,MongoDB,Express.js and EJS
+
+# How to Install
+
+- Clone the project onto your local machine.
+- Run 'npm install' to install required dependencies.
+- Run 'npm start' in terminal to start server.
+- Visit your app at http://localhost:8000.
+- Then open the localhost and start making friends
+
+# Project Dependencies
+
     "connect-flash": "^0.1.1",
     "connect-mongo": "^3.1.2",
     "cookie-parser": "^1.4.6",
@@ -42,6 +55,7 @@
     "passport-local": "^1.0.0",
     "rotating-file-stream": "^3.0.3",
     "socket.io": "^4.4.1",
-    "yargs": "^17.4.0"
-  }
-}
+    "yargs": "^17.4.0"  
+
+# Link To App
+[Codeial-Chat](https://codeial-chat.herokuapp.com/)
